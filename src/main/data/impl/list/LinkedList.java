@@ -3,7 +3,10 @@ package main.data.impl.list;
 import main.data.execption.ElementNotFoundExecption;
 import main.data.execption.EmptyCollectionExecption;
 
-public class LinkedList<T> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedList<T> implements Iterable<T>{
 
     private int count;
     private LinearNode<T> head, tail;
@@ -33,6 +36,32 @@ public class LinkedList<T> {
 
     public int size() {
         return count;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T> {
+        private LinearNode<T> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+        @Override
+        public T next() {
+            if (current == null) throw new NoSuchElementException();
+            T elem = current.getElement();
+            current = current.getNext();
+            return elem;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
