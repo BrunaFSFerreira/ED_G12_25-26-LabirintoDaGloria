@@ -7,7 +7,7 @@ import main.data.impl.stack.LinkedStack;
 
 import java.util.Iterator;
 
-public class AdjListGraph<T> implements GraphADT<T> {
+public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
     protected final int DEFAULT_CAPACITY = 10;
     protected int numVertices;
     protected ArrayUnorderedList<T>[] adjList;
@@ -292,11 +292,30 @@ public class AdjListGraph<T> implements GraphADT<T> {
 
     @Override
     public boolean isConnected() {
-        return false;
+        if (isEmpty()) {
+            return true;
+        }
+        Iterator<T> it = interatorBFS(vertices[0]);
+        int count = 0;
+        while (it.hasNext()) {
+            it.next();
+            count++;
+        }
+        return count == numVertices;
     }
 
     @Override
     public int size() {
         return numVertices;
     }
+
+    @Override
+    public Iterator<T> iterator() {
+        ArrayUnorderedList<T> vertexList = new ArrayUnorderedList<>();
+        for (int i = 0; i < numVertices; i++) {
+            vertexList.addToRear(vertices[i]);
+        }
+        return vertexList.iterator();
+    }
+
 }

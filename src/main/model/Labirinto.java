@@ -1,34 +1,40 @@
 package main.model;
 
+import main.data.impl.graph.UnweightedGraph.AdjListGraph;
 import main.data.impl.list.LinkedList;
 
 /**
  * Representa o labirinto do jogo.
- * O labirinto é composto por várias divisões conectadas por corredores.
- * Fornece métodos para adicionar divisões e corredores,
- * bem como para recuperar entradas e divisões com tesouros.
+ * O labirinto é composto por divisões conectadas por corredores.
+ * Utiliza um grafo para representar as conexões entre as divisões.
  * @see Divisao
  * @see Corredor
  */
 public class Labirinto {
 
-    private final LinkedList<Divisao> divs = new LinkedList<>();
+    private final AdjListGraph<Divisao> divs = new AdjListGraph<>();
 
-    public LinkedList<Divisao> getDivisoes() {
-        return divs;
-    }
-
+    /**
+     * Adiciona uma nova divisão ao labirinto.
+     * @param d A divisão a ser adicionada.
+     * @return true se a divisão foi adicionada com sucesso, false caso contrário.
+     */
     public boolean addDivisao(Divisao d) {
-        if (d != null || d.getId() == null) {
+        if (d != null || d.getId() == null || findDivisaoById(d.getId())) {
             return false;
         }
-        if (findDivisaoById(d.getId())) {
-            return false;
-        }
-        divs.add(d);
+
+        divs.addVertex(d);
         return true;
     }
 
+    /**
+     * Adiciona um corredor entre duas divisões no labirinto.
+     * @param d1 A divisão de origem.
+     * @param d2 A divisão de destino.
+     * @param c O corredor que conecta as duas divisões.
+     * @return true se o corredor foi adicionado com sucesso, false caso contrário.
+     */
     public boolean addCorredor(Divisao d1, Divisao d2, Corredor c) {
         if (d1 == null || d2 == null || c == null) {
             return false;
@@ -36,28 +42,45 @@ public class Labirinto {
         if (!findDivisaoById(d1.getId()) || !findDivisaoById(d2.getId())) {
             return false;
         }
-        //Adiciona corredor de d1 para d2
-        d1.getVizinhos().add(new Corredor(d2, c.getEvento(), c.isBloqueado()));
-        //Adiciona corredor de d2 para d1
-        d2.getVizinhos().add(new Corredor(d1, c.getEvento(), c.isBloqueado()));
+
+        divs.addEdge(d1, d2, 0);
         return true;
     }
 
+    /**
+     * Obtém todas as divisões que são entradas do labirinto.
+     * Uma divisão é considerada uma entrada se nenhum corredor leva a ela.
+     * @return Uma lista de divisões que são entradas do labirinto.
+     */
     public LinkedList<Divisao> getEntradas() {
         LinkedList<Divisao> entradas = new LinkedList<>();
-        for (Divisao d : divs) {
-            if (d.getVizinhos().size() == 1) {
-                entradas.add(d);
+        for (Divisao divisao : divs) {
+            boolean isEntrada = true;
+            for (Divisao vizinho : divs) {
+                for (Corredor corredor : vizinho.getVizinhos()) {
+                    if (corredor.getDestino().equals(divisao)) {
+                        isEntrada = false;
+                        break;
+                    }
+                }
+                if (!isEntrada) break;
+            }
+            if (isEntrada) {
+                entradas.add(divisao);
             }
         }
         return entradas;
     }
 
+    /**
+     * Obtém todas as divisões que possuem tesouros no Labirinto.
+     * @return Uma lista contem todas as divisões com tesouros.
+     */
     public LinkedList<Divisao> getTesouros() {
-        LinkedList<Divisao> tesouros = new LinkedList<>();
-        for (Divisao d : divs) {
-            if (d.isTemTesouro()) {
-                tesouros.add(d);
+       LinkedList<Divisao> tesouros = new LinkedList<>();
+        for (Divisao divisao : divs) {
+            if (divisao.isTemTesouro()) {
+                tesouros.add(divisao);
             }
         }
         return tesouros;
@@ -67,9 +90,14 @@ public class Labirinto {
         // Implementação futura para carregar o labirinto a partir de um arquivo JSON
     }
 
+    /**
+     * Verifica se uma divisão com o ID especificado já existe no labirinto.
+     * @param id O ID da divisão a ser verificada.
+     * @return true se a divisão existir, false caso contrário.
+     */
     private boolean findDivisaoById(String id) {
-        for (Divisao d : divs) {
-            if (d.getId().equals(id)) {
+        for (Divisao divisao : divs) {
+            if (divisao.getId().equals(id)) {
                 return true;
             }
         }
