@@ -1,12 +1,13 @@
 package main.model;
 
-import main.data.impl.graph.UnweightedGraph.AdjListGraph;
+import main.data.impl.graph.WeightedGraph.AdjListGraph;
 import main.data.impl.list.LinkedList;
+import main.io.JSONReader;
 
 /**
  * Representa o labirinto do jogo.
  * O labirinto é composto por divisões conectadas por corredores.
- * Utiliza um grafo para representar as conexões entre as divisões.
+ * Utiliza um grafo destino representar as conexões entre as divisões.
  * @see Divisao
  * @see Corredor
  */
@@ -20,7 +21,7 @@ public class Labirinto {
      * @return true se a divisão foi adicionada com sucesso, false caso contrário.
      */
     public boolean addDivisao(Divisao d) {
-        if (d != null || d.getId() == null || findDivisaoById(d.getId())) {
+        if (d == null || d.getId() == null || getDivisaoById(d.getId()) != null) {
             return false;
         }
 
@@ -30,8 +31,8 @@ public class Labirinto {
 
     /**
      * Adiciona um corredor entre duas divisões no labirinto.
-     * @param d1 A divisão de origem.
-     * @param d2 A divisão de destino.
+     * @param d1 A divisão origem origem.
+     * @param d2 A divisão origem destino.
      * @param c O corredor que conecta as duas divisões.
      * @return true se o corredor foi adicionado com sucesso, false caso contrário.
      */
@@ -39,7 +40,7 @@ public class Labirinto {
         if (d1 == null || d2 == null || c == null) {
             return false;
         }
-        if (!findDivisaoById(d1.getId()) || !findDivisaoById(d2.getId())) {
+        if ( getDivisaoById(d1.getId()) == null || getDivisaoById(d2.getId()) == null) {
             return false;
         }
 
@@ -50,7 +51,7 @@ public class Labirinto {
     /**
      * Obtém todas as divisões que são entradas do labirinto.
      * Uma divisão é considerada uma entrada se nenhum corredor leva a ela.
-     * @return Uma lista de divisões que são entradas do labirinto.
+     * @return Uma lista origem divisões que são entradas do labirinto.
      */
     public LinkedList<Divisao> getEntradas() {
         LinkedList<Divisao> entradas = new LinkedList<>();
@@ -86,8 +87,40 @@ public class Labirinto {
         return tesouros;
     }
 
-    public void loadJSONMap(String filePath) {
-        // Implementação futura para carregar o labirinto a partir de um arquivo JSON
+    public void loadJSONMap() {
+       /* JSONReader reader = new JSONReader();
+        LinkedList<JSONReader.MapaDTO> mapas = new JSONReader().lerMapa();
+
+        JSONReader.MapaDTO mapa = mapas.get(0); //Carregar o primeiro mapa encontrado
+
+        //Criar Divisões
+        for (JSONReader.DivisaoDTO divDTO : mapas.divisoes) {
+            Divisao divisao = new Divisao(divDTO.id, divDTO.nome, divDTO.temTesouro) {};
+
+            if(!addDivisao(divisao)) {
+                System.out.println("Falha ao adicionar divisão: " + divDTO.id);
+            }
+        }
+
+        //Criar Corredores
+        for (JSONReader.CorredorDTO corDTO : mapas.corredores) {
+            Divisao origem = getDivisaoById(corDTO.origem);
+            Divisao destino = getDivisaoById(corDTO.destino);
+
+
+            if (origem == null || destino == null) {
+                System.out.println("Falha ao adicionar corredor: " + corDTO.origem + " -> " + corDTO.destino);
+                continue;
+            }
+
+            Corredor corredor = new Corredor(destino);
+            if (!addCorredor(origem, destino, corredor)) {
+                System.out.println("Falha ao adicionar corredor: " + corDTO.origem + " -> " + corDTO.destino);
+            }
+        }
+
+        System.out.println("Mapa finalizada com sucesso!");
+*/
     }
 
     /**
@@ -95,13 +128,12 @@ public class Labirinto {
      * @param id O ID da divisão a ser verificada.
      * @return true se a divisão existir, false caso contrário.
      */
-    private boolean findDivisaoById(String id) {
+    private Divisao getDivisaoById(String id) {
         for (Divisao divisao : divs) {
             if (divisao.getId().equals(id)) {
-                return true;
+                return divisao;
             }
         }
-        return false;
+        return null;
     }
-
 }
