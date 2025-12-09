@@ -2,9 +2,7 @@ package main.game;
 
 import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.data.impl.queue.LinkedQueue;
-import main.model.Hall;
-import main.model.Room;
-import main.model.Maze;
+import main.model.*;
 import main.utils.EventType;
 
 import java.util.Random;
@@ -13,10 +11,10 @@ public class Game {
 
     private final Maze maze;
     private final LinkedQueue<Player> queueShifts;
-    private final DoubleLinkedUnorderedList<Player> allPlayers;
     private int currentShift;
-    private final Random random;
     private Player winner;
+    private final Random random;
+    private final DoubleLinkedUnorderedList<Player> allPlayers;
 
     public Game(Maze maze, DoubleLinkedUnorderedList<Player> players) {
         this.maze = maze;
@@ -28,6 +26,14 @@ public class Game {
         for (Player player : players) {
             queueShifts.enqueue(player);
         }
+    }
+
+    public DoubleLinkedUnorderedList<Player> getAllPlayers() {
+        return allPlayers;
+    }
+
+    public int getCurrentShift() {
+        return currentShift;
     }
 
     public void start() {
@@ -72,7 +78,7 @@ public class Game {
     private void executePlay(Player active) {
         Room current = active.getCurrentPosition();
 
-        Room next = active.chooseMovement(this); // Usa o método polimórfico de Jogador/Bot
+        Room next = active.chooseMovement(this);
 
         if (next == null) {
             active.addActionToHistory("Decision: No valid move found/selected.");
@@ -82,64 +88,68 @@ public class Game {
         Hall hall = getHallToDestination(current, next);
 
         if (hall == null || hall.isBlock()) {
-            // Regra: Se o corredor está bloqueado, a Divisão current deve ser resolvida
-            // A Divisão current tem de ser Alavanca ou Enigma.
-            // ... [Lógica de ativação de Alavanca/Enigma deve ser implementada aqui ou na Divisao]
-            return;
+            if (current instanceof LeverRoom) {
+                ((LeverRoom) current).attemptSolve(0, active);
+                active.addActionToHistory("Attempted to solve LeverRoom " + current.getId() + ".");
+            } else if (current instanceof EnigmaRoom) {
+                active.addActionToHistory("Attempted to solve EnigmaRoom " + current.getId() + ".");
+            }
+            return; // Não houve movimento.
         }
-
-        // 3. Movimento
         active.setCurrentPosition(next);
         active.addActionToHistory("Movement: " + current.getId() + " -> " + next.getId());
 
+        if (hall.getEvent() != null) { // Hall.getEvent() deve retornar a classe RandomEvent
+            hall.getEvent().activate(active, this);
+        }
 
-        // 5. Atualização do estado do jogo (visualização)
+        if (active.getHistoricalActions().last().contains("EXTRA_MOVE")) {
+            Room extraNext = active.chooseMovement(this);
+            if (extraNext != null) {
+                Hall extraHall = getHallToDestination(next, extraNext);
+                if (extraHall != null && !extraHall.isBlock()) {
+                    active.setCurrentPosition(extraNext);
+                    active.addActionToHistory("Extra Movement: " + next.getId() + " -> " + extraNext.getId());
+                    System.out.println("-> " + active.getName() + " made an extra move to " + extraNext.getName());
+                }
+            }
+        }
+
         System.out.println("-> " + active.getName() + " moved to " + next.getName());
     }
 
-    private void applyEvent(Player active, EventType event) {
-        active.addActionToHistory("Event: activated event\n " + event.toString());
+    public void swapAllPlayerPositions() {
+        if (allPlayers.size() <= 1) return;
 
-        switch (event) {
-            case EXTRA_MOVE:
-                // Regra: Coloca o jogador de volta na frente da fila para jogar de novo
-                // A implementação da fila encadeada é mais simples se for uma fila circular.
-                // Aqui, apenas re-enfilamos *antes* dos jogadores que já estavam na fila (se implementarmos a fila de prioridade).
-                // Para uma LinkedQueue simples:
-                System.out.println("Event: " + active.getName() + " won an extra play!\n");
-                // O jogador não é enfileirado novamente no final do loop, mas sim inserido no início.
-                break;
-            case POSITION_SWAP:
-                Player target = chooseRandomPlayer(active);
-                if (target != null) {
-                    Room temp = active.getCurrentPosition();
-                    active.setCurrentPosition(target.getCurrentPosition());
-                    target.setCurrentPosition(temp);
-                    active.addActionToHistory("Exchange: Position swapped with " + target.getName());
-                    target.addActionToHistory("Swap: Position swapped by " + active.getName());
-                }
-                break;
-            case TURN_BLOCK:
-                int shifts = random.nextInt(3) + 1;
-                active.setBlockedShifts(shifts);
-                active.addActionToHistory("Bloqueado por " + shifts + " shifts.");
-                break;
-            case GENERAL_SWAP:
-                // [Implementação: trocar todos os jogadores de posições de forma aleatória]
-                break;
-            case MOVE_BACK:
-                // [Implementação: Recuar para uma posição anterior]
-                break;
+        // 1. Coletar todas as posições atuais na ordem de inserção original dos jogadores
+        Room[] tempArray = new Room[allPlayers.size()];
+        int index = 0;
+        for (Player player : allPlayers) {
+            tempArray[index++] = player.getCurrentPosition();
+        }
+
+        // 2. Embaralhar o array de posições (Algoritmo Fisher-Yates)
+        for (int i = tempArray.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Room temp = tempArray[i];
+            tempArray[i] = tempArray[j];
+            tempArray[j] = temp;
+        }
+
+        // 3. Atribuir as novas posições embaralhadas de volta aos jogadores
+        index = 0;
+        for (Player player : allPlayers) {
+            Room newPos = tempArray[index++];
+            player.setCurrentPosition(newPos);
+            player.addActionToHistory("Position changed by GENERAL_SWAP event to " + newPos.getName());
         }
     }
 
-    private Player chooseRandomPlayer(Player exclusion) {
-        // [Lógica para escolher um jogador da lista 'todosJogadores' que não seja o 'exclusion']
+    public Player chooseRandomPlayer(Player exclusion) {
         return null;
     }
 
     private Hall getHallToDestination(Room origin, Room destination) {
-        // Usa a lista de vizinhos da Divisão (do seu código)
         for (Hall hall : origin.getNeighbors()) {
             if (hall.getDestination().equals(destination)) {
                 return hall;
@@ -149,11 +159,9 @@ public class Game {
     }
 
     private boolean checkVictory(Player active) {
-        // Condição de Vitória: O vencedor é o primeiro jogador a alcançar a sala central.
-        return active.getCurrentPosition().isHasTreasure(); // Assumindo isTemTesouro na Divisao base
+        return active.getCurrentPosition().isHasTreasure();
     }
 
-    // Getters para a lógica do Bot
     public Maze getMaze() {
         return maze;
     }

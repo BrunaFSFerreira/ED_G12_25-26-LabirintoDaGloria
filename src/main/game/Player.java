@@ -18,9 +18,9 @@ public abstract class Player {
 
     public String getName() { return name; }
     public Room getCurrentPosition() { return currentPosition; }
-    public void setCurrentPosition(Room novaPosicao) { this.currentPosition = novaPosicao; }
+    public void setCurrentPosition(Room newPosition) { this.currentPosition = newPosition; }
     public int getBlockedShifts() { return blockedShifts; }
-    public void setBlockedShifts(int turnos) { this.blockedShifts = turnos; }
+    public void setBlockedShifts(int shifts) { this.blockedShifts = shifts; }
     public DoubleLinkedUnorderedList<String> getHistoricalActions() { return historicalActions; }
 
     public void addActionToHistory(String action) {

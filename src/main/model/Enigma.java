@@ -79,4 +79,8 @@ public class Enigma {
         }
     }
 
+    public boolean checkAnswer(String playerAnswer) {
+        return answer.trim().equalsIgnoreCase(playerAnswer.trim());
+    }
+
 }

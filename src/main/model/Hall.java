@@ -1,5 +1,6 @@
 package main.model;
 
+import main.game.Game;
 import main.game.RandomEvent;
 import main.game.Player;
 
@@ -35,12 +36,12 @@ public class Hall {
         this.block = block;
     }
 
-    public void activateEvent(Player j) {
+    public void activateEvent(Player player, Game game) {
         if (block) {
             return;
         }
         if (event != null) {
-            event.activate(j);
+            event.activate(player, game);
         }
     }
 }
