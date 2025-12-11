@@ -8,6 +8,7 @@ import main.game.Game;
 import main.game.HumanPlayer;
 import main.game.Player;
 import main.io.JSONReader;
+import main.io.JSONWriter;
 import main.model.Enigma;
 import main.model.Maze;
 import java.util.Scanner;
@@ -84,6 +85,9 @@ public class App {
         game.addPlayers(playersForGame);
 
         game.start();
+        
+        JSONWriter writer = new JSONWriter();
+        writer.writeGameReport(game);
 
         scanner.close();
 
