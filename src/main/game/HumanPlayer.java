@@ -1,9 +1,9 @@
 package main.game;
 
+import main.data.impl.list.LinkedUnorderedList;
 import main.model.Hall;
 import main.model.Room;
 
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class HumanPlayer extends Player {
@@ -21,30 +21,52 @@ public class HumanPlayer extends Player {
         System.out.println("You are currently in: " + current.getName());
         System.out.println("Available moves:");
 
-        Iterator<Hall> neighbors = current.getNeighbors().iterator();
+        LinkedUnorderedList<Hall> neighborsList = new LinkedUnorderedList<>();
+        int idxPrint = 1;
+        for (Hall h : current.getNeighbors()) {
+            neighborsList.addToRear(h);
+            System.out.println(" " + idxPrint + ". " + h.getDestination().getId() + " - " + h.getDestination().getName());
+            idxPrint++;
+        }
 
-        if (!neighbors.hasNext()) {
-            System.out.println("No available moves from this room.");
+        if (idxPrint == 1) { // nenhum vizinho
+            System.out.println(" No available moves from this room.");
             return null;
         }
 
-        int i = 1;
-        while (neighbors.hasNext()) {
-            Hall hall = neighbors.next();
-            System.out.print(" " + i + ". To room: " + hall.getDestination().getName());
-        }
+        while (true) {
+            System.out.print("Choose your move (enter the number): ");
+            String line;
+            try {
+                line = scanner.nextLine();
+                if (line == null) return null;
+            } catch (Exception e) {
+                System.out.println("Error reading input. Try again.");
+                continue;
+            }
+            line = line.trim();
+            if (line.isEmpty()) {
+                System.out.println("Input cannot be empty. Try again.");
+                continue;
+            }
 
-        System.out.print("Sua escolha (ID da Sala): ");
-        String chosenId = scanner.nextLine().trim();
+            // tenta interpretar como índice
+            try {
+                int chosen = Integer.parseInt(line);
+                if (chosen >= 1) {
+                    int counter = 1;
+                    for (Hall h : neighborsList) {
+                        if (counter == chosen) {
+                            return h.getDestination();
+                        }
+                        counter++;
+                    }
+                }
+            } catch (NumberFormatException ignored) {
+                // não é número -> inválido (apenas número é aceito aqui)
+            }
 
-        Iterator<Hall> validationNeighbors = current.getNeighbors().iterator();
-        while (validationNeighbors.hasNext()) {
-            Room destination = validationNeighbors.next().getDestination();
-            if (destination.getName().equalsIgnoreCase(chosenId)) {
-                return destination;
+            System.out.println("Invalid choice. Please enter a valid number corresponding to your move.");
         }
-    }
-        System.out.println("Invalid choice. Please try again.");
-        return null;
     }
 }

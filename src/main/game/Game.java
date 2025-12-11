@@ -1,12 +1,12 @@
 package main.game;
 
+import main.data.impl.list.ArrayUnorderedList;
 import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.data.impl.queue.LinkedQueue;
 import main.model.*;
-import main.utils.EventType;
 
-import java.util.List;
 import java.util.Random;
+import java.util.Iterator;
 
 public class Game {
 
@@ -168,13 +168,13 @@ public class Game {
     }
 
 
-    public void addPlayers(List<Player> players) {
+    public void addPlayers(ArrayUnorderedList<Player> players) {
 
         if (players == null || players.isEmpty()) return;
 
         DoubleLinkedUnorderedList<Room> entries = maze.getEntries();
-        java.util.Iterator<Room> itEntries = entries.iterator();
-        java.util.Iterator<Room> roomsIt = maze.getRooms().iterator();
+        Iterator<Room> itEntries = entries.iterator();
+        Iterator<Room> roomsIt = maze.getRooms().iterator();
         Room fallback = roomsIt.hasNext() ? roomsIt.next() : null;
 
         for (Player p : players) {

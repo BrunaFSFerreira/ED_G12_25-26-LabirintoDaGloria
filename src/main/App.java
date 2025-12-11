@@ -1,6 +1,9 @@
 package main;
 
+import main.data.impl.list.ArrayUnorderedList;
+import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.data.impl.list.LinkedList;
+import main.data.impl.list.LinkedOrderedList;
 import main.game.Bot;
 import main.game.Game;
 import main.game.HumanPlayer;
@@ -8,18 +11,12 @@ import main.game.Player;
 import main.io.JSONReader;
 import main.model.Enigma;
 import main.model.Maze;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        // Lê os enigmas do JSON
         JSONReader reader = new JSONReader();
         LinkedList<Enigma> listaEnigmas = reader.readEnigmas();
-
-        System.out.println("Total origem enigmas lidos: " + listaEnigmas.size());
 
         Enigma menager = new Enigma();
         menager.initializeQueues(listaEnigmas);
@@ -28,9 +25,7 @@ public class App {
         for (int i = 1; i <= listaEnigmas.size() * 2; i++) {
             Enigma e = menager.getNextEnigma();
             if (e != null) {
-                System.out.println("Enigma #" + i + ": " + e.getQuestion() + " -> " + e.getAnswer());
             } else {
-                System.out.println("Nenhum enigma disponível!");
             }
         }
 
@@ -45,7 +40,7 @@ public class App {
             if (numPlayers < 1) numPlayers = 1;
         } catch (NumberFormatException ignored) {}
 
-        List<Player> players = new ArrayList<>();
+        ArrayUnorderedList<Player> players = new ArrayUnorderedList<>();
         for (int p = 1; p <= numPlayers; p++) {
             System.out.println("--- Player " + p + " ---");
             System.out.print("Name: ");
@@ -60,9 +55,9 @@ public class App {
 
             // TODO: replace `null` with your maze's actual starting Room, e.g. maze.getStartRoom()
             if (type.equals("B")) {
-                players.add(new Bot(name, null));
+                players.addToRear(new Bot(name, null));
             } else {
-                players.add(new HumanPlayer(name, null));
+                players.addToRear(new HumanPlayer(name, null));
             }
         }
 
@@ -70,6 +65,20 @@ public class App {
         for (Player pl : players) {
             System.out.println(" - " + pl.getName() + " (" + pl.getClass().getSimpleName() + ")");
         }
+
+        ArrayUnorderedList<Player> playersForGame = new ArrayUnorderedList<>();
+        for (Player pl : players) {
+            playersForGame.addToRear(pl);
+        }
+
+        DoubleLinkedUnorderedList<Player> initialList = new DoubleLinkedUnorderedList<>();
+        Game game = new Game(maze, initialList);
+
+        game.addPlayers(playersForGame);
+
+        game.start();
+
+        scanner.close();
 
     }
 }
