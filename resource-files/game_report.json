@@ -1,9 +1,9 @@
 [
-  "1. Player name a - movement Entrance -\u003e Echoing Room",
-  "2. Player name b - movement West Entrance -\u003e Shadow Archive",
-  "3. Player name a - movement Echoing Room -\u003e Lever Chamber",
-  "4. Player name b - movement Shadow Archive -\u003e Guardian Chamber",
-  "5. Player name a - movement Lever Chamber -\u003e Forgotten Forge",
-  "6. Player name b - movement Guardian Chamber -\u003e Moon Fountain",
-  "7. Player name a - movement Forgotten Forge -\u003e Ancient Well"
+  "1. Player name a - movement r1 -\u003e r6",
+  "2. Player name b - movement r1 -\u003e r2",
+  "3. Player name a - movement r6 -\u003e r7",
+  "4. Player name b - movement r2 -\u003e r1",
+  "5. Player name a - movement r7 -\u003e r8",
+  "6. Player name b - movement r1 -\u003e r2",
+  "7. Player name a - movement r8 -\u003e r13"
 ]

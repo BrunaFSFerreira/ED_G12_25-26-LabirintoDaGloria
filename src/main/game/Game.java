@@ -1,11 +1,15 @@
 package main.game;
 
+import main.data.impl.list.ArrayOrderedList;
 import main.data.impl.list.ArrayUnorderedList;
 import main.data.impl.list.DoubleLinkedUnorderedList;
+import main.data.impl.list.LinkedOrderedList;
 import main.data.impl.queue.LinkedQueue;
 import main.model.*;
 
-import java.util.*;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Iterator;
 
 public class Game {
 
@@ -69,7 +73,7 @@ public class Game {
         if (winner == null) return;
         this.winner = winner;
         winner.addActionToHistory("WON: entered treasure room " +
-                (winner.getCurrentPosition() != null ? winner.getCurrentPosition().getId() : "<unknown>"));
+                (winner.getCurrentPosition() != null ? winner.getCurrentPosition().getName() : "<unknown>"));
         System.out.println("GAME OVER. Winner: " + winner.getName());
         // Esvazia a fila de turnos para garantir que o loop termine
         while (queueShifts.size() > 0) {
@@ -102,14 +106,14 @@ public class Game {
         if (hall == null || hall.isBlock()) {
             if (current instanceof LeverRoom) {
                 ((LeverRoom) current).attemptSolve(0, active);
-                active.addActionToHistory("Attempted to solve LeverRoom " + current.getId() + ".");
+                active.addActionToHistory("Attempted to solve LeverRoom " + current.getName() + ".");
             } else if (current instanceof EnigmaRoom) {
-                active.addActionToHistory("Attempted to solve EnigmaRoom " + current.getId() + ".");
+                active.addActionToHistory("Attempted to solve EnigmaRoom " + current.getName() + ".");
             }
             return; // Não houve movimento.
         }
         active.setCurrentPosition(next);
-        active.addActionToHistory("Movement: " + current.getId() + " -> " + next.getId());
+        active.addActionToHistory("Movement: " + current.getId() + " -> " + next.getName());
 
         if (hall.getEvent() != null) { // Hall.getEvent() deve retornar a classe RandomEvent
             hall.getEvent().activate(active, this);
@@ -121,7 +125,7 @@ public class Game {
                 Hall extraHall = getHallToDestination(next, extraNext);
                 if (extraHall != null && !extraHall.isBlock()) {
                     active.setCurrentPosition(extraNext);
-                    active.addActionToHistory("Extra Movement: " + next.getId() + " -> " + extraNext.getId());
+                    active.addActionToHistory("Extra Movement: " + next.getId() + " -> " + extraNext.getName());
                     System.out.println("-> " + active.getName() + " made an extra move to " + extraNext.getName());
                 }
             }
@@ -183,8 +187,8 @@ public class Game {
         if (players == null || players.isEmpty()) return;
 
         DoubleLinkedUnorderedList<Room> entries = maze.getEntries();
-        List<Room> entriesList = new ArrayList<>();
-        for (Room r : entries) entriesList.add(r);
+        ArrayUnorderedList<Room> entriesList = new ArrayUnorderedList<>();
+        for (Room r : entries) entriesList.addToRear(r);
 
         Iterator<Room> roomsIt = maze.getRooms().iterator();
         Room fallback = roomsIt.hasNext() ? roomsIt.next() : null;
@@ -201,57 +205,86 @@ public class Game {
             if (entriesList.isEmpty()) {
                 start = fallback;
             } else if (p instanceof Bot) {
-                start = entriesList.get(roundIndex % entriesList.size());
+                int target = roundIndex % entriesList.size();
+                int counter = 0;
+                for (Room r : entriesList) {
+                    if (counter == target) {
+                        start = r;
+                        break;
+                    }
+                    counter++;
+                }
                 roundIndex++;
             } else {
                 System.out.println("\nEntrances: ");
-                for (int i = 0; i < entriesList.size(); i++) {
-                    Room r = entriesList.get(i);
-                    System.out.println((i + 1) + ") " + r.getName() + " (" + r.getId() + ")");
+                int i = 1;
+                for (Room r : entriesList) {
+                    System.out.println(i + ") " + r.getName() + " (ID: " + r.getId() + ")");
+                    i++;
                 }
                 System.out.println("Select an entrance: ");
                 String line = scanner.nextLine().trim();
 
-
                 try {
                     int choice = Integer.parseInt(line);
                     if (choice >= 1 && choice <= entriesList.size()) {
-                        start = entriesList.get(choice - 1);
+                        int counter = 1;
+                        for (Room r : entriesList) {
+                            if (counter == choice) {
+                                start = r;
+                                break;
+                            }
+                            counter++;
+                        }
                     } else {
                         System.out.println("Invalid option. Using default.");
-                        start = entriesList.get(roundIndex % entriesList.size());
+                        int target = roundIndex % entriesList.size();
+                        int counter = 0;
+                        for (Room r : entriesList) {
+                            if (counter == target) {
+                                start = r;
+                                break;
+                            }
+                            counter++;
+                        }
                         roundIndex++;
                     }
-                } catch (NumberFormatException ex) {
+                } catch (NumberFormatException e) {
                     Room matched = null;
                     for (Room r : entriesList) {
-                        if (r.getId().equalsIgnoreCase(line)) {
+                        if (r.getName().equalsIgnoreCase(line)) {
                             matched = r;
                             break;
                         }
                     }
-                    if (matched != null) {
+                    if (matched == null) {
                         start = matched;
                     } else {
                         System.out.println("Invalid option. Using default.");
-                        start = entriesList.get(roundIndex % entriesList.size());
+                        int target = roundIndex % entriesList.size();
+                        int counter = 0;
+                        for (Room r : entriesList) {
+                            if (counter == target) {
+                                start = r;
+                                break;
+                            }
+                            counter++;
+                        }
                         roundIndex++;
                     }
                 }
             }
-
-
             p.setCurrentPosition(start);
-            p.setInitialPosition(start);
             p.setBlockedShifts(0);
-
             allPlayers.addToRear(p);
             queueShifts.enqueue(p);
+
 
             System.out.println("Added player: " + p.getName() + " starting at " +
                     (start != null ? start.getName() : "<none>"));
         }
     }
-
 }
+
+
 
