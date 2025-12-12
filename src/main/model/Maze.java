@@ -1,10 +1,13 @@
 package main.model;
 
-import main.data.impl.graph.WeightedGraph.AdjListGraph;
+import main.data.impl.graph.AdjListGraph;
 import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.data.impl.list.LinkedUnorderedList;
 import main.data.impl.list.ArrayUnorderedList;
+import main.io.HallDTO;
 import main.io.JSONReader;
+import main.io.MapDTO;
+import main.io.RoomDTO;
 import main.utils.ChallengeType;
 
 import java.util.Random;
@@ -62,7 +65,7 @@ public class Maze {
 
     public void loadJSONMap(int mapIndex) {
         JSONReader reader = new JSONReader();
-        LinkedUnorderedList<JSONReader.MapDTO> maps = new JSONReader().writeMap();
+        LinkedUnorderedList<MapDTO> maps = new JSONReader().writeMap();
 
         if (maps.isEmpty()) {
             System.out.println("No maps found in JSON.");
@@ -74,9 +77,9 @@ public class Maze {
             mapIndex = 0;
         }
 
-        JSONReader.MapDTO map = null;
+        MapDTO map = null;
         int counter = 0;
-        for (JSONReader.MapDTO dto : maps) {
+        for (MapDTO dto : maps) {
             if (counter == mapIndex) {
                 map = dto;
                 break;
@@ -92,7 +95,7 @@ public class Maze {
         ArrayUnorderedList<String> enigmaCandidates = new ArrayUnorderedList<>();
 
 
-        for (JSONReader.RoomDTO roomDTO : map.rooms) {
+        for (RoomDTO roomDTO : map.rooms) {
             Room room = new Room(roomDTO.id, roomDTO.name, roomDTO.hasTreasure) {
             };
             room.setX(roomDTO.x);
@@ -111,7 +114,7 @@ public class Maze {
             }
         }
 
-        for (JSONReader.HallDTO hallDTO : map.halls) {
+        for (HallDTO hallDTO : map.halls) {
             Room origin = getRoomById(hallDTO.origin);
             Room destination = getRoomById(hallDTO.destination);
 
@@ -157,7 +160,7 @@ public class Maze {
             }
         }
 
-        for (JSONReader.RoomDTO roomDTO : map.rooms) {
+        for (RoomDTO roomDTO : map.rooms) {
             Room room = getRoomById(roomDTO.id);
             if (room == null) continue;
 
@@ -190,8 +193,8 @@ public class Maze {
             return;
         }
 
-        final int W = 7;   // largura da sala (mais pequeno)
-        final int H = 3;   // altura da sala (mais pequeno)
+        final int W = 7;
+        final int H = 3;
         final int GAP_X = 3;
         final int GAP_Y = 1;
 
@@ -209,7 +212,6 @@ public class Maze {
             for (int x = 0; x < width; x++)
                 grid[y][x] = " ";
 
-        // --- DESENHAR SALAS ---
         for (Room room : rooms) {
 
             int ox = room.getX() * (W + GAP_X);
@@ -244,7 +246,6 @@ public class Maze {
             grid[oy + 1][ox + W / 2] = symbol;
         }
 
-        // --- DESENHAR LIGAÇÕES ---
         for (Room room : rooms) {
 
             int ox = room.getX() * (W + GAP_X);
@@ -262,14 +263,12 @@ public class Maze {
                 int midDX = dx + W / 2;
                 int midDY = dy + H / 2;
 
-                // Horizontal
                 if (oy == dy) {
                     int start = Math.min(midX, midDX) + 1;
                     int end = Math.max(midX, midDX) - 1;
                     for (int x = start; x <= end; x++)
                         grid[midY][x] = "─";
                 }
-                // Vertical
                 else if (ox == dx) {
                     int start = Math.min(midY, midDY) + 1;
                     int end = Math.max(midY, midDY) - 1;
@@ -279,8 +278,7 @@ public class Maze {
             }
         }
 
-        // --- IMPRIMIR ---
-        System.out.println("====== LABIRINTO ======");
+        System.out.println("====== LABYRINTH ======");
         for (int y = 0; y < height; y++) {
             StringBuilder sb = new StringBuilder();
             for (int x = 0; x < width; x++)

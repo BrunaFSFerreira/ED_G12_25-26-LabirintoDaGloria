@@ -35,7 +35,6 @@ public abstract class Player {
     }
 
     public Room chooseMovement(Game game) {
-        // Implementação base para o modo Manual (deve ser refinado para UI/Input)
         return null;
     }
 }

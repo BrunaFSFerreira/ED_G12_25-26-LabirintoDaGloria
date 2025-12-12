@@ -14,8 +14,6 @@ public class Challenge {
 
     private final ChallengeType type;
     private final int correctLeverId;
-    private final Random random = new Random();
-    private final EventType[] possibleEvents = EventType.values();
 
     public Challenge(ChallengeType type) {
         this.type = ChallengeType.ENIGMA;

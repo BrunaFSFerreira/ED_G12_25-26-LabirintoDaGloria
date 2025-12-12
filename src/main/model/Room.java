@@ -8,7 +8,6 @@ public abstract class Room {
     private String name;
     private final LinkedUnorderedList<Hall> neighbors = new LinkedUnorderedList<>();
     private boolean hasTreasure;
-    private boolean isEntrance;
     private boolean isChallengeResolved;
     private Challenge challenge;
     private final LinkedUnorderedList<Hall> hallsToUnlock = new LinkedUnorderedList<>();
@@ -30,16 +29,8 @@ public abstract class Room {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public LinkedUnorderedList<Hall> getNeighbors() {
@@ -48,18 +39,6 @@ public abstract class Room {
 
     public boolean isHasTreasure() {
         return hasTreasure;
-    }
-
-    public void setHasTreasure(boolean hasTreasure) {
-        this.hasTreasure = hasTreasure;
-    }
-
-    public boolean isEntrance() {
-        return isEntrance;
-    }
-
-    public void setEntrance(boolean entrance) {
-        isEntrance = entrance;
     }
 
     public boolean isChallengeResolved() {

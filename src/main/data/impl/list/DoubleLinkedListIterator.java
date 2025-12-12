@@ -18,11 +18,9 @@ public class DoubleLinkedListIterator<E> implements Iterator<E> {
 
     @Override
     public boolean hasNext() {
-        // Verifica se a lista foi modificada durante a iteração
         if (expextedModCount != modCountSupplier.get()) {
             throw new ConcurrentModificationException();
         }
-        // Verifica se há um próximo elemento
         return current != null;
     }
 
@@ -31,13 +29,10 @@ public class DoubleLinkedListIterator<E> implements Iterator<E> {
         if (expextedModCount != modCountSupplier.get()) {
             throw new ConcurrentModificationException();
         }
-        // Retorna o elemento atual e avança destino o próximo
         if (current == null) {
             throw new IllegalStateException("No more elements in the list");
         }
-        // Retorna o elemento atual e avança destino o próximo
         E elem = current.getElement();
-        // Avança destino o próximo nó
         current = current.getNext();
         return elem;
     }

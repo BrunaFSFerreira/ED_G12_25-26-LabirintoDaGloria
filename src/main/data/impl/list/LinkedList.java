@@ -54,7 +54,7 @@ public class LinkedList<T> implements ListADT<T> {
 
     /**
      * Removes and returns the specified element from this list and returns a reference to it.
-     * //@param targetElement
+     * @param targetElement
      * @return T the element that was removed
      * @throws EmptyCollectionExecption if the list is empty
      * @throws ElementNotFoundExecption if the specified element is not found in the list

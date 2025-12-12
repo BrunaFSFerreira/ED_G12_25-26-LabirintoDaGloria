@@ -10,35 +10,21 @@ import java.util.Random;
 public class Hall {
 
     private final Room destination;
-    private final RandomEvent event;
     private boolean block;
     private final int size;
 
-    public Hall(Room destination) {
-        this(destination, null, false, 1);
-    }
-
-    public Hall(Room destination, int size) {
-        this(destination, null, false, size);
-    }
-
-    public Hall(Room destination, RandomEvent event, boolean block, int size) {
+    public Hall(Room destination, boolean block, int size) {
         this.destination = destination;
-        this.event = event;
         this.block = block;
         this.size = size;
     }
 
+    public Hall(Room destination, int size) {
+        this(destination, false, size);
+    }
+
     public Room getDestination() {
         return destination;
-    }
-
-    public RandomEvent getEvent() {
-        return event;
-    }
-
-    public boolean isBlock() {
-        return block;
     }
 
     public void setBlock(boolean block) {

@@ -19,7 +19,6 @@ public class ArrayUnorderedList<T>  extends ArrayList<T> implements UnorderedLis
         if(size() == list.length) {
             extandCapacity();
         }
-        // Shift elements to the right to make space at the front
         for (int i = rear; i > 0; i--) {
             list[i] = list[i - 1];
         }
@@ -46,7 +45,6 @@ public class ArrayUnorderedList<T>  extends ArrayList<T> implements UnorderedLis
         if (index == -1) {
             throw new NoSuchElementException("Elemento alvo não encontrado");
         }
-        // Shift elements to the right to make space after the target
         for (int i = rear; i > index + 1; i--) {
             list[i] = list[i - 1];
         }
@@ -92,7 +90,6 @@ public class ArrayUnorderedList<T>  extends ArrayList<T> implements UnorderedLis
             if (expectedModCount != modCount) {
                 throw new java.util.ConcurrentModificationException();
             }
-            // shift left from lastRet+1 .. rear-1
             for (int i = lastRet + 1; i < rear; i++) {
                 list[i - 1] = list[i];
             }

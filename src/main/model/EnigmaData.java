@@ -3,12 +3,10 @@ package main.model;
 import com.google.gson.annotations.SerializedName;
 
 public class EnigmaData {
-    private String question;
-    private String answer;
+    private final String question;
+    private final String answer;
     @SerializedName("wrong_answers")
     private String[] wrongAnswers;
-
-    public EnigmaData () {}
 
     public EnigmaData(String question, String answer, String[] wrongAnswers) {
         this.question = question;
@@ -24,9 +22,5 @@ public class EnigmaData {
     }
     public String[] getWrongAnswers() {
         return wrongAnswers;
-    }
-
-    public boolean checkAnswer (String playerAnswer) {
-        return this.answer.equalsIgnoreCase(playerAnswer.trim());
     }
 }

@@ -27,7 +27,6 @@ public class ArrayList<T> implements ListADT<T> {
             throw new NoSuchElementException("Lista vazia");
         }
         T remove = list[0];
-        // Shift elements to the left
         for (int i = 0; i < rear - 1; i++) {
             list[i - 1] = list[i];
         }
@@ -64,7 +63,6 @@ public class ArrayList<T> implements ListADT<T> {
         int index = find(element);
         if (index != -1) {
             T remove = list[index];
-            // Shift elements to the left
             for (int i = index; i < rear - 1; i++) {
                 list[i] = list[i + 1];
             }

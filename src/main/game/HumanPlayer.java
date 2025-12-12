@@ -29,7 +29,7 @@ public class HumanPlayer extends Player {
             idxPrint++;
         }
 
-        if (idxPrint == 1) { // nenhum vizinho
+        if (idxPrint == 1) {
             System.out.println(" No available moves from this room.");
             return null;
         }
@@ -50,7 +50,6 @@ public class HumanPlayer extends Player {
                 continue;
             }
 
-            // tenta interpretar como índice
             try {
                 int chosen = Integer.parseInt(line);
                 if (chosen >= 1) {
@@ -62,9 +61,7 @@ public class HumanPlayer extends Player {
                         counter++;
                     }
                 }
-            } catch (NumberFormatException ignored) {
-                // não é número -> inválido (apenas número é aceito aqui)
-            }
+            } catch (NumberFormatException ignored) {}
 
             System.out.println("Invalid choice. Please enter a valid number corresponding to your move.");
         }

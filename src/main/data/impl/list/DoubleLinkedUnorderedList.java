@@ -13,10 +13,8 @@ public class DoubleLinkedUnorderedList<E> extends DoubleLinkedList<E> implements
     public void addToFront(E element) {
         DoubleNode<E> newNode = new DoubleNode<>(element);
         if (isEmpty()) {
-            // Se a lista estiver vazia, o novo nó é tanto a cabeça quanto a cauda
             head = tail = newNode;
         } else {
-            // Caso contrário, insere o novo nó no início da lista
             newNode.setNext(head);
             head.setPrevious(newNode);
             head = newNode;
@@ -27,13 +25,10 @@ public class DoubleLinkedUnorderedList<E> extends DoubleLinkedList<E> implements
 
     @Override
     public void addToRear(E element) {
-        // Cria um novo nó com o elemento fornecido
         DoubleNode<E> newNode = new DoubleNode<>(element);
         if (isEmpty()) {
-            // Se a lista estiver vazia, o novo nó é tanto a cabeça quanto a cauda
             head = tail = newNode;
         } else {
-            // Caso contrário, insere o novo nó no final da lista
             tail.setNext(newNode);
             newNode.setPrevious(tail);
             tail = newNode;
@@ -47,17 +42,15 @@ public class DoubleLinkedUnorderedList<E> extends DoubleLinkedList<E> implements
         DoubleNode<E> newNode = new DoubleNode<>(element);
         DoubleNode<E> current = head;
 
-        // Percorre a lista destino encontrar o nó com o elemento alvo
         while (current != null) {
             E el = current.getElement();
             if ((target == null && el == null) || (target != null && target.equals(el))) {
-                // Insere o novo nó após o nó encontrado
                 newNode.setNext(current.getNext());
                 newNode.setPrevious(current);
                 if (current.getNext() != null) {
                     current.getNext().setPrevious(newNode);
                 } else {
-                    tail = newNode; // Atualiza a cauda se estiver inserindo no final
+                    tail = newNode;
                 }
                 current.setNext(newNode);
                 count++;

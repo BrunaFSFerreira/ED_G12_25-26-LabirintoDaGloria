@@ -1,4 +1,4 @@
-package main.data.impl.graph.WeightedGraph;
+package main.data.impl.graph;
 
 
 import main.data.adt.GraphADT;
@@ -57,25 +57,22 @@ public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
         int idx = getIndex(vertex);
         if (!indexIsValid(idx)) return;
 
-        // Remove edges to idx and adjust indices > idx
         for (int i = 0; i < numVertices; i++) {
             if (i == idx) continue;
             ArrayUnorderedList<Edge> newList = new ArrayUnorderedList<>();
             Iterator<Edge> it = adjList[i].iterator();
             while (it.hasNext()) {
                 Edge e = it.next();
-                if (e.index == idx) continue; //Remove edge to vertex removed
+                if (e.index == idx) continue;
                 int newIndex = e.index > idx ? e.index - 1 : e.index;
                 newList.addToRear(new Edge(newIndex, e.weight));
             }
             adjList[i] = newList;
         }
 
-        //Shift vertices left
         for (int i = idx; i < numVertices - 1; i++) vertices[i] = vertices[i + 1];
         vertices[numVertices - 1] = null;
 
-        //Shift adjList left
         for (int i = idx; i < numVertices - 1; i++) adjList[i] = adjList[i + 1];
         adjList[numVertices - 1] = new ArrayUnorderedList<>();
 

@@ -47,34 +47,6 @@ public class JSONReader {
         return enigmas;
     }
 
-    public static class MapDTO {
-        public LinkedUnorderedList<RoomDTO> rooms = new LinkedUnorderedList<>();
-        public LinkedUnorderedList<HallDTO> halls = new LinkedUnorderedList<>();
-    }
-
-    public static class RoomDTO {
-        public String id;
-        public String name;
-        public boolean hasTreasure;
-        public boolean isEntrance;
-        public int x;
-        public int y;
-        public Integer correctLeverId;
-
-        public String getChallengeType() {
-            if (correctLeverId != null) return "LEVER";
-            if (isEntrance) return "ENTRANCE";
-            if (hasTreasure) return "TREASURE";
-            return "NORMAL";
-        }
-    }
-
-    public static class HallDTO {
-        public String origin;
-        public String destination;
-        public int size;
-    }
-
     public LinkedUnorderedList<MapDTO> writeMap() {
         LinkedUnorderedList<MapDTO> maps = new LinkedUnorderedList<>();
 

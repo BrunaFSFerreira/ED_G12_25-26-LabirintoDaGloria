@@ -10,6 +10,7 @@ import main.game.HumanPlayer;
 import main.game.Player;
 import main.io.JSONReader;
 import main.io.JSONWriter;
+import main.io.MapDTO;
 import main.model.EnigmaData;
 import main.model.Maze;
 import java.util.Scanner;
@@ -18,10 +19,16 @@ public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         JSONReader reader = new JSONReader();
+        JSONWriter writer = new JSONWriter();
+
+        LinkedUnorderedList<MapDTO> maps = new JSONReader().writeMap();
         LinkedList<EnigmaData> listEnigmas = reader.readEnigmas();
+        ArrayUnorderedList<Player> players = new ArrayUnorderedList<>();
+        ArrayUnorderedList<Player> playersForGame = new ArrayUnorderedList<>();
+        DoubleLinkedUnorderedList<Player> initialList = new DoubleLinkedUnorderedList<>();
+
         Maze maze = new Maze();
 
-        LinkedUnorderedList<JSONReader.MapDTO> maps = new JSONReader().writeMap();
         if (maps.isEmpty()) {
             System.out.println("No maps available. Exiting.");
             return;
@@ -29,7 +36,7 @@ public class App {
 
         System.out.println("Maps available: ");
         int index = 1;
-        for (JSONReader.MapDTO map : maps) {
+        for (MapDTO map : maps) {
             int roomsCount = map.rooms != null ? map.rooms.size() : 0;
             System.out.println("Map " + index + " - " + roomsCount + " rooms");
             index++;
@@ -69,7 +76,6 @@ public class App {
             }
         }
 
-        ArrayUnorderedList<Player> players = new ArrayUnorderedList<>();
         for (int p = 1; p <= numPlayers; p++) {
             System.out.println("--- Player " + p + " ---");
             System.out.print("Name: ");
@@ -94,23 +100,16 @@ public class App {
             System.out.println(" - " + pl.getName() + " (" + pl.getClass().getSimpleName() + ")");
         }
 
-        ArrayUnorderedList<Player> playersForGame = new ArrayUnorderedList<>();
         for (Player pl : players) {
             playersForGame.addToRear(pl);
         }
 
-        DoubleLinkedUnorderedList<Player> initialList = new DoubleLinkedUnorderedList<>();
-
         Game game = new Game(maze, initialList, listEnigmas, scanner);
-
         game.addPlayers(playersForGame);
-
         game.start();
 
-        JSONWriter writer = new JSONWriter();
         writer.writeGameReport(game);
 
         scanner.close();
-
     }
 }

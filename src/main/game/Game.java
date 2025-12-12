@@ -5,7 +5,6 @@ import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.data.impl.list.LinkedList;
 import main.data.impl.queue.LinkedQueue;
 import main.model.*;
-import main.utils.EventType;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -31,7 +30,6 @@ public class Game {
         this.random = new Random();
         this.scanner = scanner;
 
-        // Inicializa o manager com a lista de enigmas lida
         this.challengeManager = new ChallengeManager(enigmas);
 
         for (Player player : players) {
@@ -43,16 +41,8 @@ public class Game {
         return challengeManager;
     }
 
-    public Scanner getScanner() {
-        return scanner;
-    }
-
     public DoubleLinkedUnorderedList<Player> getAllPlayers() {
         return allPlayers;
-    }
-
-    public int getCurrentShift() {
-        return currentShift;
     }
 
     public void start() {
@@ -61,7 +51,6 @@ public class Game {
         while (queueShifts.size() > 0 && winner == null) {
             Player active = queueShifts.dequeue();
 
-            // CHAMA A NOVA FUNÇÃO DE EXIBIÇÃO DE ESTADO
             displayGameStateNarrative(active);
 
             if (processBlock(active)) {
@@ -71,25 +60,20 @@ public class Game {
 
             executePlay(active);
 
-            if (checkVictory(active)) {
-                winner = active;
+            if (active.getCurrentPosition() != null && active.getCurrentPosition().isHasTreasure()) {
+                endGame(active);
                 break;
             }
 
             queueShifts.enqueue(active);
             currentShift++;
         }
-
-        if (winner != null) {
-            System.out.println("GAME OVER. Winner: " + winner.getName());
-        }
     }
 
     public void endGame(Player winner) {
         if (winner == null) return;
         this.winner = winner;
-        winner.addActionToHistory("WON: entered treasure room " +
-                (winner.getCurrentPosition() != null ? winner.getCurrentPosition().getName() : "<unknown>"));
+        winner.addActionToHistory("WON: entered treasure room " + (winner.getCurrentPosition() != null ? winner.getCurrentPosition().getName() : "<unknown>"));
         System.out.println("GAME OVER. Winner: " + winner.getName());
         while (queueShifts.size() > 0) {
             queueShifts.dequeue();
@@ -225,10 +209,6 @@ public class Game {
         return null;
     }
 
-    private boolean checkVictory(Player active) {
-        return active.getCurrentPosition().isHasTreasure();
-    }
-
     public Maze getMaze() {
         return maze;
     }
@@ -325,7 +305,6 @@ public class Game {
                     }
                 }
             }
-            // CRITICAL ADDITION: Record the initial position
             p.setInitialPosition(start);
             p.setCurrentPosition(start);
             p.setBlockedShifts(0);
@@ -366,7 +345,6 @@ public class Game {
             }
 
             System.out.println("  History of Actions (All Traversed Halls/Overcome Obstacles):");
-            // Usar Iterator explícito para garantir a exibição de todos os elementos
             Iterator<String> historyIterator = p.getHistoricalActions().iterator();
             while (historyIterator.hasNext()) {
                 System.out.println("    - " + historyIterator.next());
