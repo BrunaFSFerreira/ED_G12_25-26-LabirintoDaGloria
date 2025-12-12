@@ -5,6 +5,7 @@ import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.data.impl.list.LinkedList;
 import main.data.impl.queue.LinkedQueue;
 import main.model.*;
+import main.utils.EventType;
 
 import java.util.Random;
 import java.util.Scanner;

@@ -1,10 +1,9 @@
 package main.model;
 
 import main.data.impl.list.ArrayUnorderedList;
-import main.data.impl.list.LinkedList;
+import main.game.Bot;
 import main.game.Game;
 import main.game.Player;
-import main.game.RandomEvent;
 import main.utils.ChallengeType;
 import main.utils.EventType;
 
@@ -37,10 +36,20 @@ public class Challenge {
             return true;
         }
 
+        boolean isBot = player instanceof Bot;
+
         if (type == ChallengeType.ENIGMA) {
-            return handleEnigma(player, game, roomToUnlock, scanner);
+            if (isBot) {
+                return ((Bot) player).solveEnigma(game, roomToUnlock);
+            } else {
+                return handleEnigma(player, game, roomToUnlock, scanner);
+            }
         } else if (type == ChallengeType.LEVER) {
-            return handleLever(player, game, roomToUnlock, scanner);
+            if (isBot) {
+                return ((Bot) player).pullLever(game, roomToUnlock, correctLeverId);
+            } else {
+                return handleLever(player, game, roomToUnlock, scanner);
+            }
         }
 
         return true;
@@ -125,54 +134,49 @@ public class Challenge {
             System.out.println("Enigma resolved! Access to " + roomToUnlock.getName() + " unlocked.");
             return true;
         } else {
-            EventType eventType = possibleEvents[random.nextInt(possibleEvents.length)];
-            RandomEvent event = new RandomEvent(eventType);
-            event.activate(player, game);
-
-            player.addActionToHistory("Failed ENIGMA challenge in room " + roomToUnlock.getName() + ". Wrong answer: " + selectedAnswer + ". Event triggered: " + eventType.toString());
+            player.addActionToHistory("Failed ENIGMA challenge in room " + roomToUnlock.getName() + ". Wrong answer: " + selectedAnswer);
             System.out.println("Wrong answer! Access to " + roomToUnlock.getName() + " is blocked this turn.");
             return false;
         }
     }
 
     private boolean handleLever(Player player, Game game, Room roomToUnlock, Scanner scanner) {
-        System.out.println(player.getName() + ", escolha uma alavanca (1, 2 ou 3) para entrar em " + roomToUnlock.getName() + ":");
+        Random random = new Random();
 
-        System.out.print("Sua escolha: ");
-        int playerChoice = -1;
+        System.out.println(player.getName() + ", choose a lever (1, 2, or 3) to enter " + roomToUnlock.getName() + ":");
+        System.out.print("Your choice: ");
+
+        int playerChoice;
         try {
             String line = scanner.nextLine().trim();
             playerChoice = Integer.parseInt(line);
         } catch (Exception e) {
-            System.out.println("Opção inválida.");
+            System.out.println("Invalid option.");
             player.addActionToHistory("Failed LEVER challenge in room " + roomToUnlock.getName() + ". Invalid input.");
             return false;
         }
 
         if (playerChoice < 1 || playerChoice > 3) {
-            System.out.println("Opção inválida. Escolha 1, 2 ou 3.");
+            System.out.println("Invalid option. Choose 1, 2, or 3.\n");
             player.addActionToHistory("Failed LEVER challenge in room " + roomToUnlock.getName() + ". Invalid choice outside 1-3.");
             return false;
         }
-        if (playerChoice == correctLeverId) {
+
+        if (playerChoice == this.correctLeverId) {
             roomToUnlock.setChallengeResolved(true);
 
             for (Hall hall : roomToUnlock.getHallsToUnlock()) {
                 hall.setBlock(false);
             }
+
             player.addActionToHistory("Solved LEVER challenge in room " + roomToUnlock.getName() + ". Correct lever pulled (" + correctLeverId + "). Halls unlocked.");
-            System.out.println("-> Desafio LEVER resolvido! Os caminhos a partir de " + roomToUnlock.getName() + " foram desbloqueados.");
+            System.out.println("-> LEVER challenge solved! The paths from " + roomToUnlock.getName() + " are now unlocked.");
             return true;
         } else {
-            EventType eventType = possibleEvents[random.nextInt(possibleEvents.length)];
-            RandomEvent event = new RandomEvent(eventType);
-            event.activate(player, game);
-
-            player.addActionToHistory("Failed LEVER challenge in room " + roomToUnlock.getName() + ". Wrong lever pulled (" + playerChoice + "). Event triggered: " + eventType.toString());
-            System.out.println("-> Alavanca incorreta! O acesso a " + roomToUnlock.getName() + " está bloqueado neste turno.");
+            player.addActionToHistory("Failed LEVER challenge in room " + roomToUnlock.getName() + ". Wrong lever pulled (" + playerChoice + "). Event triggered: ");
+            System.out.println("-> Incorrect lever! Access to " + roomToUnlock.getName() + " it's blocked this shift.\n");
             return false;
         }
-
 
     }
 }

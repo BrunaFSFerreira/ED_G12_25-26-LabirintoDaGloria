@@ -146,14 +146,10 @@ public class Maze {
 
             if (selectedId != null) {
                 selectedEnigmas.addToRear(selectedId);
-                // Remove o ID da lista de candidatos para evitar seleção duplicada e manter a contagem
                 enigmaCandidates.remove(selectedId);
                 currentCandidatesCount = enigmaCandidates.size(); // Atualiza a contagem após a remoção
             }
         }
-
-        System.out.println("Salas de Enigma selecionadas aleatoriamente: " + selectedEnigmas.toString());
-
 
         // B. Atribui os desafios às salas
         for (JSONReader.RoomDTO roomDTO: map.rooms) {

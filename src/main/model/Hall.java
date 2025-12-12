@@ -3,6 +3,9 @@ package main.model;
 import main.game.Game;
 import main.game.RandomEvent;
 import main.game.Player;
+import main.utils.EventType;
+
+import java.util.Random;
 
 public class Hall {
 
@@ -47,14 +50,25 @@ public class Hall {
     }
 
     public boolean activateEvent(Player player, Game game) {
-        if (block) {
+        if (this.block) {
+            System.out.println("The hall is blocked. You cannot proceed.");
             return false;
         }
 
-        if (event != null) {
-            event.activate(player, game);
+        Random random = new Random();
+
+        if (random.nextDouble() < 0.50) {
+            EventType[] allEventTypes = EventType.values();
+            EventType eventType = allEventTypes[random.nextInt(allEventTypes.length)];
+
+            RandomEvent localEvent = new RandomEvent(eventType);
+
+            localEvent.activate(player, game);
+
+            System.out.println("A random event occurred: " + eventType);
         }
 
-        return true;
+    return true;
+
     }
 }
