@@ -5,8 +5,13 @@ import main.data.adt.UnorderedListADT;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+/**
+ * Implementing an unordered list using a linked list.
+ * @param <T> the type of the elements in the list
+ */
 public class LinkedUnorderedList<T> extends LinkedList<T> implements UnorderedListADT<T> {
 
+    /** Default constructor */
     public LinkedUnorderedList() {
         super();
     }
@@ -54,7 +59,7 @@ public class LinkedUnorderedList<T> extends LinkedList<T> implements UnorderedLi
             current = current.getNext();
         }
 
-        throw new IllegalArgumentException("Elemento alvo não encontrado na lista.");
+        throw new IllegalArgumentException("Target element not found in the list.");
     }
 
     @Override

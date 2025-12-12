@@ -5,13 +5,24 @@ import main.data.adt.ListADT;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Implementation of a doubly linked list.
+ * @param <E> the type of elements stored in the list
+ */
 public class DoubleLinkedList<E> implements ListADT<E> {
 
+    /** The head node of the list. */
     protected DoubleNode<E> head;
+    /** The tail node of the list. */
     protected DoubleNode<E> tail;
+    /** The number of elements in the list. */
     protected int count;
+    /** The modification count for the list. */
     protected int modCount;
 
+    /**
+     * Constructor Methods
+     */
     public DoubleLinkedList() {
         head = tail = null;
         count = 0;

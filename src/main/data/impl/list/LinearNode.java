@@ -1,9 +1,13 @@
 package main.data.impl.list;
 
+/**
+ * Node class for linear data structures.
+ * @param <T> the type of element stored in the node
+ */
 public class LinearNode<T> {
 
     /**
-     * referen to next node in list
+     * Reference to next node in list
      */
     private LinearNode<T> next;
     /**
@@ -30,7 +34,7 @@ public class LinearNode<T> {
 
     /**
      * Returns the node that follows this one.
-     * @return LinearNode<T> reference to next node
+     * @return {@code LinearNode<T>} reference to next node
      */
     public LinearNode<T> getNext() {
         return next;

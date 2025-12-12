@@ -23,7 +23,7 @@
       { "id": "r17", "name": "Infinite Echo Room",       "x": 1, "y": 3 },
       { "id": "r18", "name": "Puzzle Garden",            "x": 2, "y": 3 },
       { "id": "r19", "name": "Moon Fountain",            "x": 3, "y": 3 },
-      { "id": "r20", "name": "Exit",                     "x": 4, "y": 3,  "isEntrance": true },
+      { "id": "r20", "name": "Secret Entrance",                     "x": 4, "y": 3,  "isEntrance": true },
 
       { "id": "r21", "name": "Echo Gallery",             "x": 0, "y": 4 },
       { "id": "r22", "name": "South Entrance",           "x": 1, "y": 4 },
@@ -92,7 +92,7 @@
 
       { "id": "r13", "name": "Ethereal Chamber",    "x": 0, "y": 3 },
       { "id": "r14", "name": "Phantom Room",        "x": 2, "y": 3, "correctLeverId": 3 },
-      { "id": "r15", "name": "Exit",                "x": 3, "y": 3, "isEntrance": true }
+      { "id": "r15", "name": "Reception",                "x": 3, "y": 3, "isEntrance": true }
     ],
 
     "halls": [
@@ -144,7 +144,7 @@
       { "id": "r17", "name": "Spectral Crossing",      "x": 1, "y": 3 },
       { "id": "r18", "name": "Phantom Room",           "x": 2, "y": 3 },
       { "id": "r19", "name": "Echo Vault",             "x": 3, "y": 3 },
-      { "id": "r20", "name": "Exit",                   "x": 4, "y": 3, "isEntrance": true }
+      { "id": "r20", "name": "Entrance",                   "x": 4, "y": 3, "isEntrance": true }
     ],
 
     "halls": [

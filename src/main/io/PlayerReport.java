@@ -5,6 +5,10 @@ import main.game.Player;
 
 import java.util.Iterator;
 
+/**
+ * Data Transfer Object representing a report of a player's game session.
+ * Used for serialization and deserialization of player report data.
+ */
 public class PlayerReport {
     final String playerName;
     final String finalPosition;

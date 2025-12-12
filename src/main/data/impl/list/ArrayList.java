@@ -5,16 +5,29 @@ import main.data.adt.ListADT;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Array-based implementation of a list.
+ * @param <T> the type of elements in the list
+ */
 public class ArrayList<T> implements ListADT<T> {
+    /** The array to hold the list elements. */
     protected T[] list;
+    /** The index of the rear of the list.*/
     protected int rear;
+    /** The default capacity of the list. */
     private static final int DEFAULT_CAPACITY = 10;
+    /** The modification count for the list. */
     protected int modCount;
 
+    /** Creates an empty list with the default capacity. */
     public ArrayList() {
         this(DEFAULT_CAPACITY);
     }
 
+    /**
+     * Creates an empty list with the specified initial capacity.
+     * @param initialCapacity the initial capacity of the list
+     */
     public ArrayList(int initialCapacity) {
         list = (T[]) new Object[initialCapacity];
         rear = 0;
@@ -46,6 +59,11 @@ public class ArrayList<T> implements ListADT<T> {
         return remove;
     }
 
+    /**
+     * Finds the index of the specified element in the list.
+     * @param element the element to find
+     * @return the index of the element, or -1 if not found
+     */
     public int find(T element) {
         for (int i = 0; i < rear; i++) {
             if (list[i].equals(element)) {
@@ -137,6 +155,9 @@ public class ArrayList<T> implements ListADT<T> {
         return sb.toString();
     }
 
+    /**
+     * Extends the capacity of the list by doubling its size.
+     */
     public void extandCapacity() {
         T[] newList = (T[]) new Object[list.length * 2];
         for (int i = 0; i < list.length; i++) {

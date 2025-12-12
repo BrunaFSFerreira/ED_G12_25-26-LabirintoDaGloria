@@ -1,26 +1,26 @@
 [
   {
-    "question": "Qual é a capital de Portugal?",
-    "answer": "Lisboa",
+    "question": "What is the capital of Portugal?",
+    "answer": "Lisbon",
     "wrong_answers": ["Porto", "Coimbra", "Faro"]
   },
   {
-    "question": "Quanto é 7 * 6?",
+    "question": "What is 7 * 6?",
     "answer": "42",
     "wrong_answers": ["36", "48", "52"]
   },
   {
-    "question": "Quem escreveu 'Dom Quixote'?",
+    "question": "Who wrote 'Don Quixote'?",
     "answer": "Miguel de Cervantes",
     "wrong_answers": ["Gabriel García Márquez", "Jorge Luis Borges", "Pablo Neruda"]
   },
   {
-    "question": "Qual é o maior planeta do sistema solar?",
-    "answer": "Júpiter",
-    "wrong_answers": ["Saturno", "Marte", "Terra"]
+    "question": "What is the largest planet in the solar system?",
+    "answer": "Jupiter",
+    "wrong_answers": ["Saturn", "Mars", "Earth"]
   },
   {
-    "question": "Em que ano o homem pisou a Lua pela primeira vez?",
+    "question": "In what year did man first walk on the Moon?",
     "answer": "1969",
     "wrong_answers": ["1959", "1979", "1989"]
   }

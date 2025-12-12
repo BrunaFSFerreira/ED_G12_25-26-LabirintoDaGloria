@@ -30,6 +30,9 @@ public interface ListADT<T> extends Iterable<T> {
     /**
      * Removes and returns the specified element from this list.
      * @param element the element to be removed from the list
+     * @return a reference to the removed element
+     * @throws EmptyCollectionExecption if the list is empty
+     * @throws ElementNotFoundExecption if the specified element is not found in the list
      */
     public T remove(T element) throws EmptyCollectionExecption, ElementNotFoundExecption;
 

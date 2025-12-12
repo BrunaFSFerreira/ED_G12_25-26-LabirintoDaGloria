@@ -1,0 +1,26 @@
+{
+  "game_id": "1765549136050",
+  "end_time": "2025-12-12T14:18:56Z",
+  "winner": "Bot",
+  "players": [
+    {
+      "playerName": "Bot",
+      "finalPosition": "Ancient Well",
+      "initialPosition": "Entrance",
+      "isWinner": true,
+      "blockedTurnsLeft": 2,
+      "pathAndEvents": [
+        "Movement -> Echoing Room",
+        "Bot: Solved LEVER challenge in room Lever Chamber. Correct lever pulled (3). Halls unlocked.",
+        "Movement -> Lever Chamber",
+        "Event triggered: NONE",
+        "No effect.",
+        "Movement -> Forgotten Forge",
+        "Event triggered: TURN_BLOCK",
+        "Will miss next 2 shifts!",
+        "Movement -> Ancient Well",
+        "WON: entered treasure room Ancient Well"
+      ]
+    }
+  ]
+}

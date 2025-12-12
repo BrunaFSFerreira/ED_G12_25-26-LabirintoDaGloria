@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 /**
  * GraphADT defines the interface to a graph data structure.
+ * @param <T> the type of elements held in this graph
  */
 public interface GraphADT<T> {
     /**
@@ -22,6 +23,7 @@ public interface GraphADT<T> {
      * Inserts an edge between two vertices of this graph
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
+     * @param weight the weight of the edge
      */
     public void addEdge(T vertex1, T vertex2, double weight);
 

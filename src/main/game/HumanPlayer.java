@@ -6,10 +6,18 @@ import main.model.Room;
 
 import java.util.Scanner;
 
+/**
+ * Class representing a Human Player in the maze game.
+ * Extends the Player class and allows for user input to choose movements.
+ */
 public class HumanPlayer extends Player {
-
     private final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Constructs a HumanPlayer with the given name and starting position.
+     * @param name the name of the human player
+     * @param startingPosition the starting room of the human player
+     */
     public HumanPlayer(String name, Room startingPosition) {
         super(name, startingPosition);
     }
@@ -25,7 +33,7 @@ public class HumanPlayer extends Player {
         int idxPrint = 1;
         for (Hall h : current.getNeighbors()) {
             neighborsList.addToRear(h);
-            System.out.println(" " + idxPrint + ". " + h.getDestination().getId() + " - " + h.getDestination().getName());
+            System.out.println(" " + idxPrint + ". " + h.getDestination().getName());
             idxPrint++;
         }
 

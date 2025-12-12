@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"main"},{"l":"main.data.adt"},{"l":"main.data.execption"},{"l":"main.data.impl.graph"},{"l":"main.data.impl.list"},{"l":"main.data.impl.queue"},{"l":"main.data.impl.stack"},{"l":"main.game"},{"l":"main.io"},{"l":"main.model"},{"l":"main.utils"}];updateSearchResults();

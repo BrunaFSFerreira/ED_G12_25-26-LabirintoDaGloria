@@ -10,18 +10,35 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Iterator;
 
+/**
+ * Class representing the main game logic for the maze exploration game.
+ */
 public class Game {
-
+    /** The maze being explored in the game */
     private final Maze maze;
+    /** Queue of players for turn management */
     private final LinkedQueue<Player> queueShifts;
+    /** The current shift/turn number */
     private int currentShift;
+    /** The player who wins the game */
     public Player winner;
+    /** Random number generator for various game mechanics */
     private final Random random;
+    /** List of all players in the game */
     private final DoubleLinkedUnorderedList<Player> allPlayers;
+    /** Scanner for user input */
     private final Scanner scanner;
 
+    /** Challenge manager for handling enigmas and challenges */
     private final ChallengeManager challengeManager;
 
+    /**
+     * Constructs a new Game instance with the specified maze, players, enigmas, and scanner.
+     * @param maze the maze to be explored
+     * @param players the list of players participating in the game
+     * @param enigmas the list of enigmas available in the game
+     * @param scanner the scanner for user input
+     */
     public Game(Maze maze, DoubleLinkedUnorderedList<Player> players, LinkedList<EnigmaData> enigmas, Scanner scanner) {
         this.maze = maze;
         this.queueShifts = new LinkedQueue<>();
@@ -37,14 +54,25 @@ public class Game {
         }
     }
 
+    /**
+     * Gets the challenge manager for the game.
+     * @return the challenge manager
+     */
     public ChallengeManager getChallengeManager() {
         return challengeManager;
     }
 
+    /**
+     * Gets the list of all players in the game.
+     * @return the list of all players
+     */
     public DoubleLinkedUnorderedList<Player> getAllPlayers() {
         return allPlayers;
     }
 
+    /**
+     * Starts the game loop, processing player turns until a winner is found or no players remain.
+     */
     public void start() {
         System.out.println("--- Game started: Labyrinth of Glory ---\n");
 
@@ -70,6 +98,10 @@ public class Game {
         }
     }
 
+    /**
+     * Ends the game and declares the winner.
+     * @param winner the player who won the game
+     */
     public void endGame(Player winner) {
         if (winner == null) return;
         this.winner = winner;
@@ -80,6 +112,11 @@ public class Game {
         }
     }
 
+    /**
+     * Processes if the active player is blocked from playing this turn.
+     * @param active the active player
+     * @return true if the player is blocked and the turn is skipped, false otherwise
+     */
     private boolean processBlock(Player active) {
         if (active.getBlockedShifts() > 0) {
             active.setBlockedShifts(active.getBlockedShifts() - 1);
@@ -90,6 +127,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * Executes the play for the active player.
+     * @param active the active player
+     */
     private void executePlay(Player active) {
         Room current = active.getCurrentPosition();
         Room next = active.chooseMovement(this);
@@ -155,6 +196,9 @@ public class Game {
         System.out.println("-> " + active.getName() + " moved to " + next.getName());
     }
 
+    /**
+     * Swaps the positions of all players in the game randomly.
+     */
     public void swapAllPlayerPositions() {
         if (allPlayers.size() <= 1) return;
 
@@ -179,6 +223,11 @@ public class Game {
         }
     }
 
+    /**
+     * Chooses a random player from the list of all players, excluding the specified player.
+     * @param exclusion the player to exclude from selection
+     * @return a randomly selected player, or null if no other players are available
+     */
     public Player chooseRandomPlayer(Player exclusion) {
         if (allPlayers.size() <= 1) return null;
 
@@ -200,6 +249,12 @@ public class Game {
         return null;
     }
 
+    /**
+     * Retrieves the hall connecting the origin room to the destination room.
+     * @param origin the starting room
+     * @param destination the target room
+     * @return the hall connecting the two rooms, or null if none exists
+     */
     private Hall getHallToDestination(Room origin, Room destination) {
         for (Hall hall : origin.getNeighbors()) {
             if (hall.getDestination().equals(destination)) {
@@ -209,10 +264,18 @@ public class Game {
         return null;
     }
 
+    /**
+     * Gets the maze being explored in the game.
+     * @return the maze
+     */
     public Maze getMaze() {
         return maze;
     }
 
+    /**
+     * Adds players to the game, assigning them starting positions in entrance rooms.
+     * @param players the list of players to add
+     */
     public void addPlayers(ArrayUnorderedList<Player> players) {
 
         if (players == null || players.isEmpty()) return;
@@ -317,6 +380,10 @@ public class Game {
         }
     }
 
+    /**
+     * Displays the current game state in a narrative format for the active player.
+     * @param activePlayer the player whose turn it is
+     */
     private void displayGameStateNarrative(Player activePlayer) {
         System.out.println("\n==================================================");
         System.out.println("== TURN " + currentShift + " | ACTIVE PLAYER: " + activePlayer.getName() + " ==");

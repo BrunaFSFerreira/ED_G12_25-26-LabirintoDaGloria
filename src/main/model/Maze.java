@@ -13,12 +13,24 @@ import main.utils.ChallengeType;
 import java.util.Random;
 import java.util.Iterator;
 
+/**
+ * Class representing a maze composed of rooms and halls.
+ */
 public class Maze {
 
     private final AdjListGraph<Room> rooms = new AdjListGraph<>();
     private final Random random = new Random();
     private final DoubleLinkedUnorderedList<Room> entryRooms = new DoubleLinkedUnorderedList<>();
 
+    /** Default constructor for Maze. */
+    public Maze() {
+    }
+
+    /**
+     * Adds a room to the maze.
+     * @param d the room to add
+     * @return true if the room was added successfully, false otherwise
+     */
     public boolean addRoom(Room d) {
         if (d == null || d.getId() == null || getRoomById(d.getId()) != null) {
             return false;
@@ -28,6 +40,13 @@ public class Maze {
         return true;
     }
 
+    /**
+     * Adds a hall connecting two rooms in the maze.
+     * @param origin the origin room
+     * @param destination the destination room
+     * @param c the hall to add
+     * @return true if the hall was added successfully, false otherwise
+     */
     public boolean addHall(Room origin, Room destination, Hall c) {
         if (origin == null || destination == null || c == null) {
             return false;
@@ -49,10 +68,18 @@ public class Maze {
         return true;
     }
 
+    /**
+     * Retrieves the list of entry rooms in the maze.
+     * @return a list of entry rooms
+     */
     public DoubleLinkedUnorderedList<Room> getEntries() {
         return entryRooms;
     }
 
+    /**
+     * Retrieves a list of rooms that contain treasures.
+     * @return a list of treasure rooms
+     */
     public DoubleLinkedUnorderedList<Room> getTreasures() {
         DoubleLinkedUnorderedList<Room> treasures = new DoubleLinkedUnorderedList<>();
         for (Room room : rooms) {
@@ -63,6 +90,10 @@ public class Maze {
         return treasures;
     }
 
+    /**
+     * Loads a maze map from a JSON file based on the provided index.
+     * @param mapIndex the index of the map to load
+     */
     public void loadJSONMap(int mapIndex) {
         JSONReader reader = new JSONReader();
         LinkedUnorderedList<MapDTO> maps = new JSONReader().writeMap();
@@ -186,6 +217,9 @@ public class Maze {
         printMaze();
     }
 
+    /**
+     * Prints a visual representation of the maze to the console.
+     */
     public void printMaze() {
 
         if (rooms.isEmpty()) {
@@ -288,6 +322,11 @@ public class Maze {
         System.out.println("=======================");
     }
 
+    /**
+     * Retrieves a room by its unique identifier.
+     * @param id the unique identifier of the room
+     * @return the Room object if found, null otherwise
+     */
     public Room getRoomById(String id) {
         for (Room room : rooms) {
             if (room.getId().equals(id)) {
@@ -297,6 +336,10 @@ public class Maze {
         return null;
     }
 
+    /**
+     * Gets the graph of rooms in the maze.
+     * @return the adjacency list graph of rooms
+     */
     public AdjListGraph<Room> getRooms() {
         return rooms;
     }

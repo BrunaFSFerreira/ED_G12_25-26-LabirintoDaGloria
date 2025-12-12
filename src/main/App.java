@@ -15,7 +15,23 @@ import main.model.EnigmaData;
 import main.model.Maze;
 import java.util.Scanner;
 
+/**
+ * Main application class to run the maze game.
+ */
 public class App {
+
+    /**
+     * Default constructor for App class.
+     */
+    public App() {
+    }
+
+    /**
+     * Main method to start the maze game application.
+     * It handles user input for map selection and player creation,
+     * initializes the game, and starts the game loop.
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         JSONReader reader = new JSONReader();

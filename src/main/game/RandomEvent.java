@@ -5,16 +5,28 @@ import main.utils.EventType;
 
 import java.util.Random;
 
+/**
+ * Class representing a random event that can occur in the game.
+ */
 public class RandomEvent {
 
     private final EventType type;
     private final Random random;
 
+    /**
+     * Constructs a RandomEvent with the specified type.
+     * @param type the type of the random event
+     */
     public RandomEvent(EventType type) {
         this.type = type;
         this.random = new Random();
     }
 
+    /**
+     * Activates the random event for the given player in the context of the game.
+     * @param player affected player
+     * @param game current game instance
+     */
     public void activate(Player player, Game game) {
         player.addActionToHistory("Event triggered: " + type.toString());
         System.out.print("--- EVENT: " + type + "for " + player.getName() + " ---\n");

@@ -5,11 +5,21 @@ import main.data.adt.UnorderedListADT;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Array-based implementation of an unordered list.
+ * @param <T> the type of elements stored in the list
+ */
 public class ArrayUnorderedList<T>  extends ArrayList<T> implements UnorderedListADT<T> {
+
+    /** Constructor Methods */
     public ArrayUnorderedList() {
         super();
     }
 
+    /**
+     * Constructor with initial capacity
+     * @param initialCapacity the initial capacity of the list
+     */
     public ArrayUnorderedList(int initialCapacity) {
         super(initialCapacity);
     }

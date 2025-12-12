@@ -2,6 +2,10 @@ package main.data.impl.stack;
 
 import main.data.impl.list.LinearNode;
 
+/**
+ * Linked implementation of a stack.
+ * @param <T> the type of elements held in this stack
+ */
 public class LinkedStack<T> {
     private LinearNode<T> top;
     private int size;
@@ -16,7 +20,7 @@ public class LinkedStack<T> {
 
     /**
      * Adds the specified element to the top of this stack
-     * @param element
+     * @param element the element to be added to the top of this stack
      */
     public void push(T element) {
         LinearNode<T> newNode = new LinearNode<>(element);
@@ -27,7 +31,7 @@ public class LinkedStack<T> {
 
     /**
      * Removes the element at the top of this stack and returns a reference to it.
-     * @return
+     * @return the element at the top of this stack
      */
     public T pop() {
         if (isEmpty()) {
@@ -42,7 +46,7 @@ public class LinkedStack<T> {
     /**
      * Returns a reference to the element at the top of this stack.
      * The element is not removed from the stack.
-     * @return
+     * @return the element at the top of this stack
      */
     public T peek() {
         if (isEmpty()) {
@@ -52,11 +56,18 @@ public class LinkedStack<T> {
         return top.getElement();
     }
 
-
+    /**
+     * Returns true if this stack contains no elements.
+     * @return true if this stack contains no elements
+     */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /**
+     * Returns the number of elements in this stack.
+     * @return the integer representation of number of elements in this stack
+     */
     public int size() {
         return size;
     }

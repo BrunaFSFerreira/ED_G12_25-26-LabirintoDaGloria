@@ -6,12 +6,19 @@ import main.data.impl.stack.LinkedStack;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * Class to manage enigma challenges within the maze game.
+ */
 public class ChallengeManager {
 
     private LinkedStack<EnigmaData> poll = new LinkedStack<>();
     private LinkedStack<EnigmaData> available = new LinkedStack<>();
     private final Random random = new Random();
 
+    /**
+     * Constructs a ChallengeManager with a list of enigmas.
+     * @param listEnigmas the list of enigmas to manage
+     */
     public ChallengeManager(LinkedList<EnigmaData> listEnigmas) {
         initializeStacks(listEnigmas);
     }
@@ -37,6 +44,10 @@ public class ChallengeManager {
         }
     }
 
+    /**
+     * Retrieves the next available enigma challenge.
+     * @return the next EnigmaData, or null if none are available
+     */
     public EnigmaData getNextEnigma() {
         if (available.isEmpty()){
             recycleEnigmas();

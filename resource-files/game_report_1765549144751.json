@@ -1,0 +1,37 @@
+{
+  "game_id": "1765549212991",
+  "end_time": "2025-12-12T14:20:13Z",
+  "winner": "Bruna",
+  "players": [
+    {
+      "playerName": "Ana",
+      "finalPosition": "Secret Room",
+      "initialPosition": "Lonely Room",
+      "isWinner": false,
+      "blockedTurnsLeft": 0,
+      "pathAndEvents": [
+        "Successfully challenged enigma in room Secret Room. Correct answer: 1969. Halls unlocked.",
+        "Movement -> Secret Room",
+        "Position changed by GENERAL_SWAP event to Secret Room",
+        "Failed LEVER challenge in room Forgotten Alcove. Wrong lever pulled (3). Event triggered: "
+      ]
+    },
+    {
+      "playerName": "Bruna",
+      "finalPosition": "Cursed Gallery",
+      "initialPosition": "Reception",
+      "isWinner": true,
+      "blockedTurnsLeft": 0,
+      "pathAndEvents": [
+        "Event triggered: GENERAL_SWAP",
+        "Position changed by GENERAL_SWAP event to Reception",
+        "All players' positions have been swapped!",
+        "Movement -> Forgotten Shrine",
+        "Event triggered: EXTRA_MOVE",
+        "Gained an extra move!",
+        "Movement -> Cursed Gallery",
+        "WON: entered treasure room Cursed Gallery"
+      ]
+    }
+  ]
+}

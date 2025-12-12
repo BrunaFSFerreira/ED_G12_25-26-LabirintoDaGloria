@@ -1,14 +1,18 @@
 package main.data.impl.queue;
 
-
 import main.data.adt.QueueADT;
 import main.data.impl.list.LinearNode;
 
+/**
+ * Linked implementation of a queue data structure.
+ * @param <T> the type of elements held in this queue
+ */
 public class LinkedQueue<T> implements QueueADT<T> {
     private LinearNode<T> front;
     private LinearNode<T> rear;
     private int size;
 
+    /** Creates an empty queue. */
     public LinkedQueue() {
         front = rear = null;
         size = 0;

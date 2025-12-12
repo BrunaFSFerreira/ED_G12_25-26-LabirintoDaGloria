@@ -11,18 +11,31 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class responsible for writing game reports to JSON files.
+ */
 public class JSONWriter {
-
     private final String outputFilePath;
 
+    /**
+     * Constructs a JSONWriter with a default output file path.
+     */
     public JSONWriter() {
         this("resource-files/game_report_" + System.currentTimeMillis() + ".json");
     }
 
+    /**
+     * Constructs a JSONWriter with a specified output file path.
+     * @param outputFilePath the path to the output JSON file
+     */
     public JSONWriter(String outputFilePath) {
         this.outputFilePath = outputFilePath;
     }
 
+    /**
+     * Writes the game report to a JSON file.
+     * @param game the game instance to generate the report from
+     */
     public void writeGameReport(Game game) {
 
         String gameId = String.valueOf(System.currentTimeMillis());

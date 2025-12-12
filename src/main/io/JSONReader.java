@@ -7,20 +7,34 @@ import java.io.FileReader;
 import main.data.impl.list.LinkedUnorderedList;
 import main.model.EnigmaData;
 
+/**
+ * Class responsible for reading Enigma and Map data from JSON files.
+ */
 public class JSONReader {
-
+    /** File path for the Enigma JSON file. */
     private final String enigmaFilePath;
+    /** File path for the Map JSON file. */
     private final String mapFilePath;
 
+    /** Default constructor initializing with default file paths. */
     public JSONReader() {
         this("resource-files/puzzle.json", "resource-files/maps.json");
     }
 
+    /**
+     * Constructor initializing with specified file paths.
+     * @param enigmaFilePath the file path for the Enigma JSON file
+     * @param mapFilePath the file path for the Map JSON file
+     */
     public JSONReader(String enigmaFilePath, String mapFilePath) {
         this.enigmaFilePath = enigmaFilePath;
         this.mapFilePath = mapFilePath;
     }
 
+    /**
+     * Reads Enigma data from a JSON file and returns a list of EnigmaData objects.
+     * @return a LinkedUnorderedList of EnigmaData objects
+     */
     public LinkedUnorderedList<EnigmaData> readEnigmas() {
         LinkedUnorderedList<EnigmaData> enigmas = new LinkedUnorderedList<>();
 
@@ -47,6 +61,10 @@ public class JSONReader {
         return enigmas;
     }
 
+    /**
+     * Reads Map data from a JSON file and returns a list of MapDTO objects.
+     * @return a LinkedUnorderedList of MapDTO objects
+     */
     public LinkedUnorderedList<MapDTO> writeMap() {
         LinkedUnorderedList<MapDTO> maps = new LinkedUnorderedList<>();
 

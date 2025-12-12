@@ -7,10 +7,17 @@ import main.data.execption.EmptyCollectionExecption;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * A linked list implementation of the ListADT interface.
+ * @param <T> the type of elements in this list
+ */
 public class LinkedList<T> implements ListADT<T> {
+    /** The number of elements in the list. */
     protected int count;
+    /** The head and tail nodes of the list. */
     protected LinearNode<T> head, tail;
 
+    /** Creates an empty linked list. */
     public LinkedList() {
         count = 0;
         head = tail = null;
@@ -54,7 +61,7 @@ public class LinkedList<T> implements ListADT<T> {
 
     /**
      * Removes and returns the specified element from this list and returns a reference to it.
-     * @param targetElement
+     * @param targetElement the element to be removed from the list
      * @return T the element that was removed
      * @throws EmptyCollectionExecption if the list is empty
      * @throws ElementNotFoundExecption if the specified element is not found in the list

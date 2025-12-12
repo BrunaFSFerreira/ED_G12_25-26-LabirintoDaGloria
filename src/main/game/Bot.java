@@ -7,9 +7,17 @@ import main.model.*;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * Class representing a Bot player in the maze game.
+ */
 public class Bot extends Player {
     Random random = new Random();
 
+    /**
+     * Constructs a Bot with the given name and starting position.
+     * @param name the name of the bot
+     * @param startingPosition the starting room of the bot
+     */
     public Bot(String name, Room startingPosition) {
         super(name, startingPosition);
     }
@@ -43,6 +51,12 @@ public class Bot extends Player {
         return null;
     }
 
+    /**
+     * Simulates the bot attempting to solve an enigma challenge.
+     * @param game the current game instance
+     * @param roomToUnlock the room associated with the enigma challenge
+     * @return true if the bot solves the enigma, false otherwise
+     */
     public boolean solveEnigma(Game game, Room roomToUnlock) {
         ChallengeManager manager = game.getChallengeManager();
         EnigmaData enigma = manager.getNextEnigma();
@@ -69,6 +83,13 @@ public class Bot extends Player {
 
     }
 
+    /**
+     * Simulates the bot pulling a lever in a lever challenge.
+     * @param game the current game instance
+     * @param roomToUnlock the room associated with the lever challenge
+     * @param correctLeverId the ID of the correct lever to pull
+     * @return true if the bot pulled the correct lever, false otherwise
+     */
     public boolean pullLever(Game game, Room roomToUnlock, int correctLeverId) {
         int numberOfLevers = 3;
         if (numberOfLevers < 2) numberOfLevers = 3;

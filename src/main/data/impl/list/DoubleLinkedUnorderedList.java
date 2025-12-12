@@ -2,12 +2,16 @@ package main.data.impl.list;
 
 import main.data.adt.UnorderedListADT;
 
+/**
+ * Implementation of a doubly linked and unordered list.
+ * @param <E> the type of elements stored in the list
+ */
 public class DoubleLinkedUnorderedList<E> extends DoubleLinkedList<E> implements UnorderedListADT<E> {
 
+    /** Default constructor */
     public DoubleLinkedUnorderedList() {
         super();
     }
-
 
     @Override
     public void addToFront(E element) {
@@ -59,7 +63,7 @@ public class DoubleLinkedUnorderedList<E> extends DoubleLinkedList<E> implements
             }
             current = current.getNext();
         }
-        throw new IllegalArgumentException("Elemento alvo não encontrado na lista.");
+        throw new IllegalArgumentException("Target element not found in the list.");
 
     }
 }

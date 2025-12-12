@@ -2,7 +2,7 @@ package main.data.impl.list;
 
 /**
  * DoubleNode represents a node in a doubly linked list.
- * @param <E>
+ * @param <E> the type of element stored in the node
  */
 public class DoubleNode<E> {
     private DoubleNode<E> next;
@@ -28,7 +28,10 @@ public class DoubleNode<E> {
         previous = null;
     }
 
-
+    /**
+     * Sets the node that follows this one.
+     * @param next the node to be set as the one to follow the current node
+     */
     public void setNext(DoubleNode<E> next) {
         this.next = next;
     }
@@ -49,6 +52,10 @@ public class DoubleNode<E> {
         previous = dnode;
     }
 
+    /**
+     * Returns the node that precedes this one.
+     * @return the node that precedes this one
+     */
     public DoubleNode<E> getPrevious() {
         return previous;
     }

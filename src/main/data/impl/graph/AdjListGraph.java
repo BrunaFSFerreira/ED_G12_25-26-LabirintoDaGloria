@@ -1,6 +1,5 @@
 package main.data.impl.graph;
 
-
 import main.data.adt.GraphADT;
 import main.data.impl.list.ArrayUnorderedList;
 import main.data.impl.queue.LinkedQueue;
@@ -8,12 +7,21 @@ import main.data.impl.stack.LinkedStack;
 
 import java.util.Iterator;
 
+/**
+ * Adjacency List implementation of a graph data structure.
+ * @param <T> the type of elements held in this graph
+ */
 public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
+    /** Default initial capacity of the graph */
     protected final int DEFAULT_CAPACITY = 10;
+    /** Number of vertices in the graph */
     protected int numVertices;
+    /** Adjacency list where each entry contains a list of edges for the corresponding vertex */
     protected ArrayUnorderedList<Edge>[] adjList;
+    /** Array of vertices in the graph */
     protected T[] vertices;
 
+    /** Constructor to initialize an empty graph */
     public AdjListGraph() {
         numVertices = 0;
         this.vertices = (T[]) new Object[DEFAULT_CAPACITY];
@@ -93,6 +101,12 @@ public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
         return -1;
     }
 
+    /**
+     * Adds an edge between two vertices identified by their indices.
+     * @param index1 index of the first vertex
+     * @param index2 index of the second vertex
+     * @param weight weight of the edge
+     */
     public void addEdge(int index1, int index2, double weight) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
             adjList[index1].addToRear(new Edge(index2, weight));

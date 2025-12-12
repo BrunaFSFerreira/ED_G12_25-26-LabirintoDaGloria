@@ -1,5 +1,8 @@
 package main.io;
 
+/**
+ * Class representing a report of a completed game.
+ */
 public class GameReport {
     final String game_id;
     final String end_time;

@@ -5,30 +5,53 @@ import main.game.Bot;
 import main.game.Game;
 import main.game.Player;
 import main.utils.ChallengeType;
-import main.utils.EventType;
 
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Class representing a challenge in the maze game.
+ */
 public class Challenge {
 
     private final ChallengeType type;
     private final int correctLeverId;
 
+    /**
+     * Constructs a Challenge of the specified type.
+     * @param type the type of challenge
+     */
     public Challenge(ChallengeType type) {
         this.type = ChallengeType.ENIGMA;
         this.correctLeverId = -1;
     }
 
+    /**
+     * Constructs a LEVER type Challenge with the specified correct lever ID.
+     * @param type the type of challenge
+     * @param correctLeverId the ID of the correct lever
+     */
     public Challenge(ChallengeType type, int correctLeverId) {
         this.type = ChallengeType.LEVER;
         this.correctLeverId = correctLeverId;
     }
 
+    /**
+     * Gets the type of the challenge.
+     * @return the challenge type
+     */
     public ChallengeType getType() {
         return type;
     }
 
+    /**
+     * Attempts to resolve the challenge for the given player and room.
+     * @param player the player attempting the challenge
+     * @param game the current game instance
+     * @param roomToUnlock the room associated with the challenge
+     * @param scanner the scanner for user input
+     * @return true if the challenge is resolved, false otherwise
+     */
     public boolean attemptChallenge(Player player, Game game, Room roomToUnlock, Scanner scanner) {
         if (roomToUnlock.isChallengeResolved()) {
             return true;
