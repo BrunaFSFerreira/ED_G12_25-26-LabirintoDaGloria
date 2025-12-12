@@ -17,7 +17,7 @@ public class RandomEvent {
 
     public void activate(Player player, Game game) {
         player.addActionToHistory("Event triggered: " + type.toString());
-        System.out.print("--- EVENT: " + type + "for" + player.getName() + " ---\n");
+        System.out.print("--- EVENT: " + type + "for " + player.getName() + " ---\n");
 
         switch(type) {
             case EXTRA_MOVE:

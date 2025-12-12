@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class Game {
 
     private final Maze maze;
-    public final LinkedQueue<Player> queueShifts;
+    private final LinkedQueue<Player> queueShifts;
     private int currentShift;
     private Player winner;
     private final Random random;
@@ -61,7 +61,8 @@ public class Game {
         while (queueShifts.size() > 0 && winner == null) {
             Player active = queueShifts.dequeue();
 
-            System.out.println("\n== Sift " + currentShift + " - Player: " + active.getName() + " ==");
+            // CHAMA A NOVA FUNÇÃO DE EXIBIÇÃO DE ESTADO
+            displayGameStateNarrative(active);
 
             if (processBlock(active)) {
                 queueShifts.enqueue(active);
@@ -95,7 +96,7 @@ public class Game {
         }
     }
 
-    public boolean processBlock(Player active) {
+    private boolean processBlock(Player active) {
         if (active.getBlockedShifts() > 0) {
             active.setBlockedShifts(active.getBlockedShifts() - 1);
             active.addActionToHistory("Blocked. Turn skipped. Remaining: " + active.getBlockedShifts());
@@ -105,7 +106,7 @@ public class Game {
         return false;
     }
 
-    public void executePlay(Player active) {
+    private void executePlay(Player active) {
         Room current = active.getCurrentPosition();
         Room next = active.chooseMovement(this);
 
@@ -115,7 +116,7 @@ public class Game {
         }
 
         if (next.getChallenge() != null && !next.isChallengeResolved()) {
-            System.out.println("\nDesafio: " + next.getChallenge().getType() + " em " + next.getName());
+            System.out.println("\nChallenge: " + next.getChallenge().getType() + " in " + next.getName());
             boolean solved = next.getChallenge().attemptChallenge(active, this, next, this.scanner);
             if (!solved) {
                 System.out.println(active.getName() + " challenge failed.");
@@ -218,7 +219,7 @@ public class Game {
         return null;
     }
 
-    public Hall getHallToDestination(Room origin, Room destination) {
+    private Hall getHallToDestination(Room origin, Room destination) {
         for (Hall hall : origin.getNeighbors()) {
             if (hall.getDestination().equals(destination)) {
                 return hall;
@@ -327,6 +328,8 @@ public class Game {
                     }
                 }
             }
+            // CRITICAL ADDITION: Record the initial position
+            p.setInitialPosition(start);
             p.setCurrentPosition(start);
             p.setBlockedShifts(0);
             allPlayers.addToRear(p);
@@ -336,5 +339,54 @@ public class Game {
             System.out.println("Added player: " + p.getName() + " starting at " +
                     (start != null ? start.getName() : "<none>"));
         }
+    }
+
+    // --- NOVO MÉTODO DE EXIBIÇÃO DE ESTADO (SEM CRÓNICAS) ---
+    private void displayGameStateNarrative(Player activePlayer) {
+        System.out.println("\n==================================================");
+        System.out.println("== TURN " + currentShift + " | ACTIVE PLAYER: " + activePlayer.getName() + " ==");
+        System.out.println("==================================================");
+
+        System.out.println("\n>>> EXPLORERS' STATUS <<<");
+        // --- SUMMARY OF EACH PLAYER'S STATUS ---
+        for (Player p : allPlayers) {
+            String currentEffects = "None";
+            Room pos = p.getCurrentPosition();
+
+            // 1. Find last action
+            String lastAction = p.getHistoricalActions().size() > 0 ? p.getHistoricalActions().last() : "Start: " + (p.getCurrentPosition() != null ? p.getCurrentPosition().getName() : "Unknown");
+
+            // 2. Extract active effects
+            if (p.getBlockedShifts() > 0) {
+                currentEffects = "BLOCKED (" + p.getBlockedShifts() + " turns left)";
+            } else if (lastAction.contains("Gained an extra move")) {
+                currentEffects = "Extra Move Pending";
+            } else if (pos != null && pos.getChallenge() != null && !pos.isChallengeResolved()) {
+                currentEffects = "Pending LEVER/ENIGMA Challenge";
+            }
+
+
+            // 3. Presentation Format
+            System.out.println("-------------------------");
+            System.out.println("Player: " + p.getName() + (p.equals(activePlayer) ? " (ACTIVE)" : ""));
+
+            // Start Position only after the second action (size >= 2)
+            if (p.getHistoricalActions().size() >= 2) {
+                System.out.println("  Start Position: " + (p.getInitialPosition() != null ? p.getInitialPosition().getName() : "N/A"));
+            }
+
+            // Show full historical actions to cover "all traversed halls and overcome obstacles"
+            System.out.println("  History of Actions (All Traversed Halls/Overcome Obstacles):");
+            // Usar Iterator explícito para garantir a exibição de todos os elementos
+            Iterator<String> historyIterator = p.getHistoricalActions().iterator();
+            while (historyIterator.hasNext()) {
+                System.out.println("    - " + historyIterator.next());
+            }
+
+            System.out.println("  Current Position: " + (pos != null ? pos.getName() + " (ID: " + pos.getId() + ")" : "N/A"));
+            System.out.println("  Active Effects: " + currentEffects);
+        }
+
+        System.out.println("\n--------------------------------------------------");
     }
 }

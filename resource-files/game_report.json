@@ -1,15 +1,11 @@
 [
-  "1. Player name b - Bot: Attempted ENIGMA in Echoing Room, selected index 2. Result: SUCCESS",
-  "2. Player name b - Event triggered: TURN_BLOCK",
-  "3. Player name b - Will miss next 3 shifts!",
-  "4. Player name b - movement r1 -\u003e Echoing Room",
-  "5. Player name b - Blocked. Turn skipped. Remaining: 2",
-  "6. Player name b - Blocked. Turn skipped. Remaining: 1",
-  "7. Player name b - Blocked. Turn skipped. Remaining: 0",
-  "8. Player name b - Bot: Solved LEVER challenge in room Lever Chamber. Correct lever pulled (3). Halls unlocked.",
-  "9. Player name b - movement r6 -\u003e Lever Chamber",
-  "10. Player name b - movement r7 -\u003e Forgotten Forge",
-  "11. Player name b - Event triggered: NONE",
-  "12. Player name b - No effect.",
-  "13. Player name b - movement r8 -\u003e Ancient Well"
+  "1. Player name a - Bot: Attempted ENIGMA in Echoing Room, selected index 4. Result: FAIL",
+  "2. Player name s - Event triggered: NONE",
+  "3. Player name a - Bot: Attempted ENIGMA in Echoing Room, selected index 1. Result: SUCCESS",
+  "4. Player name s - No effect.",
+  "5. Player name a - movement r1 -\u003e Echoing Room",
+  "6. Player name s - movement r10 -\u003e Shadow Enigma",
+  "7. Player name a - Bot: Failed LEVER challenge in room Lever Chamber. Wrong lever pulled (1). Access blocked.",
+  "8. Player name s - movement r9 -\u003e Forgotten Forge",
+  "9. Player name s - movement r8 -\u003e Ancient Well"
 ]

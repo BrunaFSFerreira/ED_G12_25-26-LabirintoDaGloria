@@ -6,6 +6,7 @@ import main.data.impl.list.LinkedUnorderedList;
 import main.data.impl.list.ArrayUnorderedList;
 import main.io.JSONReader;
 import main.utils.ChallengeType;
+
 import java.util.Random;
 import java.util.Iterator;
 
@@ -24,7 +25,7 @@ public class Maze {
         return true;
     }
 
-    public boolean addHall (Room origin, Room destination, Hall c) {
+    public boolean addHall(Room origin, Room destination, Hall c) {
         if (origin == null || destination == null || c == null) {
             return false;
         }
@@ -73,12 +74,13 @@ public class Maze {
         ArrayUnorderedList<String> enigmaCandidates = new ArrayUnorderedList<>();
 
 
-        for (JSONReader.RoomDTO roomDTO: map.rooms) {
-            Room room = new Room(roomDTO.id, roomDTO.name, roomDTO.hasTreasure) {};
+        for (JSONReader.RoomDTO roomDTO : map.rooms) {
+            Room room = new Room(roomDTO.id, roomDTO.name, roomDTO.hasTreasure) {
+            };
             room.setX(roomDTO.x);
             room.setY(roomDTO.y);
 
-            if(!addRoom(room)) {
+            if (!addRoom(room)) {
                 System.out.println("Failed to add Room: " + roomDTO.id);
             }
 
@@ -122,9 +124,9 @@ public class Maze {
             String selectedId = null;
             int counter = 0;
             Iterator<String> it = enigmaCandidates.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 String id = it.next();
-                if(counter == randomIndex) {
+                if (counter == randomIndex) {
                     selectedId = id;
                     break;
                 }
@@ -138,7 +140,7 @@ public class Maze {
             }
         }
 
-        for (JSONReader.RoomDTO roomDTO: map.rooms) {
+        for (JSONReader.RoomDTO roomDTO : map.rooms) {
             Room room = getRoomById(roomDTO.id);
             if (room == null) continue;
 
@@ -171,10 +173,10 @@ public class Maze {
             return;
         }
 
-        final int W = 15;
-        final int H = 7;
-        final int GAP_X = 4;
-        final int GAP_Y = 2;
+        final int W = 7;   // largura da sala (mais pequeno)
+        final int H = 3;   // altura da sala (mais pequeno)
+        final int GAP_X = 3;
+        final int GAP_Y = 1;
 
         int maxX = 0, maxY = 0;
         for (Room r : rooms) {
@@ -190,45 +192,42 @@ public class Maze {
             for (int x = 0; x < width; x++)
                 grid[y][x] = " ";
 
+        // --- DESENHAR SALAS ---
         for (Room room : rooms) {
 
             int ox = room.getX() * (W + GAP_X);
             int oy = room.getY() * (H + GAP_Y);
 
-            grid[oy][ox] = "╔";
+            grid[oy][ox] = "┌";
             for (int i = 1; i < W - 1; i++) grid[oy][ox + i] = "─";
-            grid[oy][ox + W - 1] = "╗";
+            grid[oy][ox + W - 1] = "┐";
 
-            for (int j = 1; j < H - 1; j++) {
-                grid[oy + j][ox] = "│";
-                grid[oy + j][ox + W - 1] = "│";
-            }
+            grid[oy + 1][ox] = "│";
+            grid[oy + 1][ox + W - 1] = "│";
 
-            grid[oy + H - 1][ox] = "╚";
-            for (int i = 1; i < W - 1; i++) grid[oy + H - 1][ox + i] = "─";
-            grid[oy + H - 1][ox + W - 1] = "╝";
+            grid[oy + 2][ox] = "└";
+            for (int i = 1; i < W - 1; i++) grid[oy + 2][ox + i] = "─";
+            grid[oy + 2][ox + W - 1] = "┘";
 
-            String symbol = " ";
+            String symbol = "─";
 
             if (room.isHasTreasure()) {
-                symbol = "💰";
+                symbol = "*";
             } else if (room.getChallenge() != null) {
                 ChallengeType type = room.getChallenge().getType();
                 if (type == ChallengeType.ENIGMA) {
-                    symbol = "❓";
+                    symbol = "?";
                 } else if (type == ChallengeType.LEVER) {
-                    symbol = "🧩";
+                    symbol = "@";
                 }
             } else if (entryRooms.contains(room)) {
-                symbol = "🚪";
+                symbol = "#";
             }
 
-            int cx = ox + W / 2;
-            int cy = oy + H / 2;
-
-            grid[cy][cx] = symbol;
+            grid[oy + 1][ox + W / 2] = symbol;
         }
 
+        // --- DESENHAR LIGAÇÕES ---
         for (Room room : rooms) {
 
             int ox = room.getX() * (W + GAP_X);
@@ -240,7 +239,6 @@ public class Maze {
             for (Hall hall : room.getNeighbors()) {
 
                 Room dst = hall.getDestination();
-
                 int dx = dst.getX() * (W + GAP_X);
                 int dy = dst.getY() * (H + GAP_Y);
 
@@ -249,8 +247,8 @@ public class Maze {
 
                 // Horizontal
                 if (oy == dy) {
-                    int start = Math.min(midX, midDX) + 2;
-                    int end = Math.max(midX, midDX) - 2;
+                    int start = Math.min(midX, midDX) + 1;
+                    int end = Math.max(midX, midDX) - 1;
                     for (int x = start; x <= end; x++)
                         grid[midY][x] = "─";
                 }
@@ -264,14 +262,15 @@ public class Maze {
             }
         }
 
-        System.out.println("======  LABIRINTO  ======");
+        // --- IMPRIMIR ---
+        System.out.println("====== LABIRINTO ======");
         for (int y = 0; y < height; y++) {
             StringBuilder sb = new StringBuilder();
             for (int x = 0; x < width; x++)
                 sb.append(grid[y][x]);
             System.out.println(sb);
         }
-        System.out.println("=========================");
+        System.out.println("=======================");
     }
 
     public Room getRoomById(String id) {

@@ -50,7 +50,6 @@ public class App {
                 System.out.println("Invalid type. Enter H or B.");
             }
 
-            // TODO: replace `null` with your maze's actual starting Room, e.g. maze.getStartRoom()
             if (type.equals("B")) {
                 players.addToRear(new Bot(name, null));
             } else {
