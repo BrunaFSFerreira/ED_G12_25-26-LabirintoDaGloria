@@ -5,8 +5,11 @@ package main.data.impl.list;
  * @param <E> the type of element stored in the node
  */
 public class DoubleNode<E> {
+    /** The next node in the list */
     private DoubleNode<E> next;
+    /** The element stored in the node */
     private E element;
+    /** The previous node in the list */
     private DoubleNode<E> previous;
 
     /**

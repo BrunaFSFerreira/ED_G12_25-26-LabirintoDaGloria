@@ -31,10 +31,22 @@ public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
         }
     }
 
+    /** Inner class to represent an edge in the graph */
     private static class Edge {
+        /** Index of the connected vertex */
         int index;
+        /** Weight of the edge */
         double weight;
-        Edge(int index, double weight) { this.index = index; this.weight = weight; }
+
+        /**
+         * Constructor to create an edge with the specified index and weight
+         * @param index index of the connected vertex
+         * @param weight weight of the edge
+         */
+        public Edge(int index, double weight) {
+            this.index = index;
+            this.weight = weight;
+        }
     }
 
     @Override
@@ -46,6 +58,7 @@ public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
     }
 
 
+    /** Expands the capacity of the vertices array and adjacency list */
     private void expandCapacity() {
         int newCapacity = vertices.length * 2;
         T[] newVertices = (T[]) new Object[newCapacity];
@@ -92,6 +105,11 @@ public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
         addEdge(getIndex(vertex1), getIndex(vertex2), weight);
     }
 
+    /**
+     * Retrieves the index of the specified vertex.
+     * @param vertex the vertex to find
+     * @return the index of the vertex, or -1 if not found
+     */
     private int getIndex(T vertex) {
         for (int i = 0; i < numVertices; i++) {
             if (vertices[i] == null) {
@@ -114,6 +132,11 @@ public class AdjListGraph<T> implements GraphADT<T>, Iterable<T> {
         }
     }
 
+    /**
+     * Checks if the given index is valid for the current number of vertices.
+     * @param index the index to check
+     * @return true if the index is valid, false otherwise
+     */
     private boolean indexIsValid(int index) {
         return index >= 0 && index < numVertices;
     }

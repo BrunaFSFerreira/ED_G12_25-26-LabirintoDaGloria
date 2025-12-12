@@ -145,8 +145,14 @@ public class LinkedList<T> implements ListADT<T> {
         return new LinkedListIterator();
     }
 
+    /** An iterator for the linked list. */
     private class LinkedListIterator implements Iterator<T> {
+        /** The current node in the iteration */
         private LinearNode<T> current = head;
+
+        /** Default constructor */
+        public LinkedListIterator() {
+        }
 
         @Override
         public boolean hasNext() {

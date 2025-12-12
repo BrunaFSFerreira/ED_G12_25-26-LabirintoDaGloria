@@ -8,8 +8,11 @@ import main.data.impl.list.LinearNode;
  * @param <T> the type of elements held in this queue
  */
 public class LinkedQueue<T> implements QueueADT<T> {
+    /** The front node of the queue */
     private LinearNode<T> front;
+    /** The rear node of the queue */
     private LinearNode<T> rear;
+    /** The number of elements in the queue */
     private int size;
 
     /** Creates an empty queue. */

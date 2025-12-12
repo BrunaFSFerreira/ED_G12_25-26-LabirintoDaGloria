@@ -174,7 +174,7 @@ public class Game {
                     boolean extraSolved = extraNext.getChallenge().attemptChallenge(active, this, extraNext, this.scanner);
 
                     if (!extraSolved) {
-                        System.out.println("-> " + active.getName() + " falhou o desafio extra e permanece em " + next.getName());
+                        System.out.println("-> " + active.getName() + " failed the extra challenge and remains in " + next.getName());
                         return;
                     }
                 }
@@ -198,6 +198,7 @@ public class Game {
 
     /**
      * Swaps the positions of all players in the game randomly.
+     * This method is used during the GENERAL_SWAP random event.
      */
     public void swapAllPlayerPositions() {
         if (allPlayers.size() <= 1) return;
@@ -225,6 +226,7 @@ public class Game {
 
     /**
      * Chooses a random player from the list of all players, excluding the specified player.
+     * It is used to select a player to change positions with during certain random events.
      * @param exclusion the player to exclude from selection
      * @return a randomly selected player, or null if no other players are available
      */
@@ -382,6 +384,13 @@ public class Game {
 
     /**
      * Displays the current game state in a narrative format for the active player.
+     * Includes player statuses, positions, and active effects.
+     * Is presented at the start of each player's turn and provides context for decision-making.
+     *
+     * The narrative includes:
+     * - Turn number and active player
+     * - Each player's name, starting position, current position, and history of actions
+     * - Any active effects or challenges pending for each player
      * @param activePlayer the player whose turn it is
      */
     private void displayGameStateNarrative(Player activePlayer) {

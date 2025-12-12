@@ -15,6 +15,7 @@ import java.util.Date;
  * Class responsible for writing game reports to JSON files.
  */
 public class JSONWriter {
+    /** The output file path for the JSON report. */
     private final String outputFilePath;
 
     /**
@@ -64,9 +65,9 @@ public class JSONWriter {
 
         try (FileWriter writer = new FileWriter(outputFilePath)) {
             gson.toJson(finalReportObject, writer);
-            System.out.println("Relatório do jogo escrito com sucesso em " + outputFilePath);
+            System.out.println("Game report successfully written in " + outputFilePath);
         } catch (IOException e) {
-            System.err.println("Erro ao escrever o relatório JSON: " + e.getMessage());
+            System.err.println("Error writing JSON report: " + e.getMessage());
         }
     }
 }

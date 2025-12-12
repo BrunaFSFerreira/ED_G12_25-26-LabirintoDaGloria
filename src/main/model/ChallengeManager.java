@@ -10,9 +10,11 @@ import java.util.Random;
  * Class to manage enigma challenges within the maze game.
  */
 public class ChallengeManager {
-
+    /** Stack to hold enigmas that have been used recently. */
     private LinkedStack<EnigmaData> poll = new LinkedStack<>();
+    /** Stack to hold enigmas that are available for use. */
     private LinkedStack<EnigmaData> available = new LinkedStack<>();
+    /** Random number generator for shuffling enigmas. */
     private final Random random = new Random();
 
     /**
@@ -23,6 +25,10 @@ public class ChallengeManager {
         initializeStacks(listEnigmas);
     }
 
+    /**
+     * Initializes the available stack with enigmas from the provided list, shuffled randomly.
+     * @param listEnigmas the list of enigmas to initialize from
+     */
     private void initializeStacks(LinkedList<EnigmaData> listEnigmas) {
         int size = listEnigmas.size();
         EnigmaData[] enigmasArray = (EnigmaData[]) new EnigmaData[size];
@@ -63,6 +69,9 @@ public class ChallengeManager {
         return enigma;
     }
 
+    /**
+     * Recycles enigmas from the poll stack back to the available stack.
+     */
     private void recycleEnigmas() {
         while (!poll.isEmpty()) {
             available.push(poll.pop());

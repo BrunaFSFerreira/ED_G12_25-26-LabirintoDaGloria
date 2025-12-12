@@ -11,6 +11,7 @@ import java.util.Random;
  * Class representing a Bot player in the maze game.
  */
 public class Bot extends Player {
+    /** Random number generator for the bot's decisions */
     Random random = new Random();
 
     /**
@@ -22,6 +23,12 @@ public class Bot extends Player {
         super(name, startingPosition);
     }
 
+    /**
+     * Chooses the next room to move to based on the shortest path to the nearest treasure.
+     * It uses the maze's graph structure to find the optimal path, using the shortest path algorithm.
+     * @param game the current game instance
+     * @return the next room to move to
+     */
     @Override
     public Room chooseMovement(Game game) {
         Maze lab = game.getMaze();
@@ -53,6 +60,7 @@ public class Bot extends Player {
 
     /**
      * Simulates the bot attempting to solve an enigma challenge.
+     * He does not know the answer, so he randomly selects one of the possible answers.
      * @param game the current game instance
      * @param roomToUnlock the room associated with the enigma challenge
      * @return true if the bot solves the enigma, false otherwise
@@ -73,7 +81,7 @@ public class Bot extends Player {
         boolean botChoseCorrectly = (random.nextInt(size) == 0);
 
         this.addActionToHistory("Bot: Attempted ENIGMA in " + roomToUnlock.getName() + ", selected index " + choice + ". Result: " + (botChoseCorrectly ? "SUCCESS" : "FAIL"));
-        System.out.println("-> Bot " + this.getName() + " tentou o Enigma. Escolha: " + choice + ". " + (botChoseCorrectly ? "Acertou!" : "Errou."));
+        System.out.println("-> Bot " + this.getName() + " tried the Enigma. Choose: " + choice + ". " + (botChoseCorrectly ? "Success!" : "Failed."));
 
         if (botChoseCorrectly) {
             return true;
@@ -85,6 +93,7 @@ public class Bot extends Player {
 
     /**
      * Simulates the bot pulling a lever in a lever challenge.
+     * He randomly selects one of the levers.
      * @param game the current game instance
      * @param roomToUnlock the room associated with the lever challenge
      * @param correctLeverId the ID of the correct lever to pull
@@ -103,11 +112,11 @@ public class Bot extends Player {
             }
 
             this.addActionToHistory("Bot: Solved LEVER challenge in room " + roomToUnlock.getName() + ". Correct lever pulled (" + correctLeverId + "). Halls unlocked.");
-            System.out.println("-> Bot " + this.getName() + " resolveu o desafio LEVER! Acesso desbloqueado permanentemente.");
+            System.out.println("-> Bot " + this.getName() + " Solved the LEVER challenge! Access unlocked permanently.");
             return true;
         } else {
             this.addActionToHistory("Bot: Failed LEVER challenge in room " + roomToUnlock.getName() + ". Wrong lever pulled (" + playerChoice + "). Access blocked.");
-            System.out.println("-> Bot " + this.getName() + " errou a alavanca! Acesso bloqueado neste turno.");
+            System.out.println("-> Bot " + this.getName() + " pulled the wrong lever! Access blocked this shift.");
             return false;
         }
     }

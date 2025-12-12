@@ -68,10 +68,18 @@ public class ArrayUnorderedList<T>  extends ArrayList<T> implements UnorderedLis
         return new ArrayIterator();
     }
 
+    /** An iterator for the array-based unordered list. */
     private class ArrayIterator implements Iterator<T> {
+        /** Current index in the iteration */
         private int current = 0;
+        /** Expected modification count for concurrent modification check */
         private int expectedModCount = modCount;
+        /** Index of the last returned element */
         private int lastRet = -1;
+
+        /** Default constructor */
+        public ArrayIterator() {
+        }
 
         @Override
         public boolean hasNext() {

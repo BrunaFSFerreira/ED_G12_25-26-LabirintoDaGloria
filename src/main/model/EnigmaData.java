@@ -6,8 +6,11 @@ import com.google.gson.annotations.SerializedName;
  * Class representing the data for an enigma challenge.
  */
 public class EnigmaData {
+    /** The enigma question */
     private final String question;
+    /** The correct answer to the enigma */
     private final String answer;
+    /** An array of wrong answers */
     @SerializedName("wrong_answers")
     private String[] wrongAnswers;
 

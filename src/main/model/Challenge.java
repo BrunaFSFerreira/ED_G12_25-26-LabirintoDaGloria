@@ -13,8 +13,9 @@ import java.util.Scanner;
  * Class representing a challenge in the maze game.
  */
 public class Challenge {
-
+    /** The type of challenge */
     private final ChallengeType type;
+    /** The ID of the correct lever for LEVER challenges */
     private final int correctLeverId;
 
     /**
@@ -46,6 +47,10 @@ public class Challenge {
 
     /**
      * Attempts to resolve the challenge for the given player and room.
+     *
+     * The method handles both ENIGMA and LEVER challenges,
+     * delegating to specific methods based on the challenge type and player type (human or bot).
+     *
      * @param player the player attempting the challenge
      * @param game the current game instance
      * @param roomToUnlock the room associated with the challenge
@@ -77,6 +82,16 @@ public class Challenge {
 
     }
 
+    /**
+     * Handles the ENIGMA challenge for a human player.
+     * The player sees a question and multiple choice answers,
+     * and must select the correct answer to resolve the challenge.
+     * @param player the player attempting the challenge
+     * @param game the current game instance
+     * @param roomToUnlock the room associated with the challenge
+     * @param scanner the scanner for user input
+     * @return true if the challenge is resolved, false otherwise
+     */
     private boolean handleEnigma(Player player, Game game, Room roomToUnlock, Scanner scanner) {
         ChallengeManager manager = game.getChallengeManager();
         EnigmaData enigma = manager.getNextEnigma();
@@ -161,6 +176,15 @@ public class Challenge {
         }
     }
 
+    /**
+     * Handles the LEVER challenge for a human player.
+     * The player must choose the correct lever to unlock the room.
+     * @param player the player attempting the challenge
+     * @param game the current game instance
+     * @param roomToUnlock the room associated with the challenge
+     * @param scanner the scanner for user input
+     * @return true if the challenge is resolved, false otherwise
+     */
     private boolean handleLever(Player player, Game game, Room roomToUnlock, Scanner scanner) {
         Random random = new Random();
 

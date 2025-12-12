@@ -17,9 +17,11 @@ import java.util.Iterator;
  * Class representing a maze composed of rooms and halls.
  */
 public class Maze {
-
+    /** Graph representing the rooms in the maze. */
     private final AdjListGraph<Room> rooms = new AdjListGraph<>();
+    /** Random number generator for maze operations. */
     private final Random random = new Random();
+    /** List of entry rooms in the maze. */
     private final DoubleLinkedUnorderedList<Room> entryRooms = new DoubleLinkedUnorderedList<>();
 
     /** Default constructor for Maze. */
@@ -166,7 +168,7 @@ public class Maze {
         int currentCandidatesCount = enigmaCandidates.size();
 
         if (currentCandidatesCount < enigmasToSelect) {
-            System.err.println("Aviso: Apenas " + currentCandidatesCount + " salas candidatas a Enigma. Esperado: " + enigmasToSelect);
+            System.err.println("Warning: Only " + currentCandidatesCount + " eligible for the Enigma. Expected: " + enigmasToSelect);
             enigmasToSelect = currentCandidatesCount;
         }
 
@@ -219,6 +221,13 @@ public class Maze {
 
     /**
      * Prints a visual representation of the maze to the console.
+     * The representation includes rooms, halls, treasures, challenges, and entry points.
+     * Rooms are displayed as boxes with symbols indicating their contents:
+     * - '*' for treasure rooms
+     * - '?' for enigma challenges
+     * - '@' for lever challenges
+     * - '#' for entry rooms
+     * Halls are represented as lines connecting the rooms.
      */
     public void printMaze() {
 
@@ -262,7 +271,7 @@ public class Maze {
             for (int i = 1; i < W - 1; i++) grid[oy + 2][ox + i] = "─";
             grid[oy + 2][ox + W - 1] = "┘";
 
-            String symbol = "─";
+            String symbol = " ";
 
             if (room.isHasTreasure()) {
                 symbol = "*";
@@ -343,6 +352,4 @@ public class Maze {
     public AdjListGraph<Room> getRooms() {
         return rooms;
     }
-
-
 }

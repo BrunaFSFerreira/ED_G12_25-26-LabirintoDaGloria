@@ -7,7 +7,9 @@ import main.data.impl.list.LinearNode;
  * @param <T> the type of elements held in this stack
  */
 public class LinkedStack<T> {
+    /** The top node of the stack */
     private LinearNode<T> top;
+    /** The number of elements in the stack */
     private int size;
 
     /**

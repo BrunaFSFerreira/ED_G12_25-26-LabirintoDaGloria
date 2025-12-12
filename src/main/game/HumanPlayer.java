@@ -11,6 +11,7 @@ import java.util.Scanner;
  * Extends the Player class and allows for user input to choose movements.
  */
 public class HumanPlayer extends Player {
+    /** Scanner for reading user input */
     private final Scanner scanner = new Scanner(System.in);
 
     /**
@@ -22,6 +23,12 @@ public class HumanPlayer extends Player {
         super(name, startingPosition);
     }
 
+    /**
+     * Allows the human player to choose their next movement based on available neighboring rooms.
+     * Prompts the user for input and validates the choice.
+     * @param game the current game instance
+     * @return the chosen room to move to
+     */
     @Override
     public Room chooseMovement(Game game) {
         Room current = getCurrentPosition();

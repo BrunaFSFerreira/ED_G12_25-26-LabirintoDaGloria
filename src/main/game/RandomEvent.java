@@ -9,8 +9,9 @@ import java.util.Random;
  * Class representing a random event that can occur in the game.
  */
 public class RandomEvent {
-
+    /** Type of the random event */
     private final EventType type;
+    /** Random number generator */
     private final Random random;
 
     /**
@@ -24,6 +25,13 @@ public class RandomEvent {
 
     /**
      * Activates the random event for the given player in the context of the game.
+     *
+     * The effects of each event type are as follows:
+     * - EXTRA_MOVE: Grants the player an extra move.
+     * - POSITION_SWAP: Swaps the player's position with a randomly chosen other player.
+     * - MOVE_BACK: The player will miss their next shift.
+     * - TURN_BLOCK: The player will miss a random number of shifts between 1 and
+     *
      * @param player affected player
      * @param game current game instance
      */

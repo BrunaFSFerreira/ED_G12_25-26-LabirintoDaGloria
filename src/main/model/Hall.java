@@ -11,9 +11,11 @@ import java.util.Random;
  * Class representing a hall connecting rooms in the maze.
  */
 public class Hall {
-
+    /** The room this hall leads to */
     private final Room destination;
+    /** Whether the hall is blocked */
     private boolean block;
+    /** The size of the hall */
     private final int size;
 
     /**
@@ -63,6 +65,7 @@ public class Hall {
 
     /**
      * Activates a random event when a player uses this hall.
+     * It has a 50% chance to trigger a random event if the hall is not blocked.
      * @param player the player using the hall
      * @param game the current game instance
      * @return true if the event was activated, false if the hall is blocked
