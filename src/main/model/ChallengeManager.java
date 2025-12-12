@@ -36,6 +36,7 @@ public class ChallengeManager {
             available.push(enigma);
         }
     }
+
     public EnigmaData getNextEnigma() {
         if (available.isEmpty()){
             recycleEnigmas();

@@ -3,6 +3,7 @@ package main;
 import main.data.impl.list.ArrayUnorderedList;
 import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.data.impl.list.LinkedList;
+import main.data.impl.list.LinkedUnorderedList;
 import main.game.Bot;
 import main.game.Game;
 import main.game.HumanPlayer;
@@ -15,12 +16,43 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         JSONReader reader = new JSONReader();
         LinkedList<EnigmaData> listaEnigmas = reader.readEnigmas();
         Maze maze = new Maze();
-        maze.loadJSONMap();
 
-        Scanner scanner = new Scanner(System.in);
+        LinkedUnorderedList<JSONReader.MapDTO> maps = new JSONReader().writeMap();
+        if (maps.isEmpty()) {
+            System.out.println("No maps available. Exiting.");
+            return;
+        }
+
+        System.out.println("Maps available: ");
+        int index = 1;
+        for (JSONReader.MapDTO map : maps) {
+            int roomsCount = map.rooms != null ? map.rooms.size() : 0;
+            System.out.println("Mapa " + index + " - " + roomsCount + " rooms");
+            index++;
+        }
+
+        int selectedMap = 1;
+        while (true) {
+            System.out.print("Select a map (1-" + maps.size() + "): ");
+            String line = scanner.nextLine().trim();
+            try {
+                selectedMap = Integer.parseInt(line);
+                if (selectedMap >= 1 && selectedMap <= maps.size()) {
+                    break;
+                } else {
+                    System.out.println("Please, insert a number between 1 and " + maps.size() + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid entry insert a number between 1 and " + maps.size());
+            }
+        }
+
+        maze.loadJSONMap(selectedMap - 1);
+
         int numPlayers = 1;
         while (true) {
             System.out.print("Number of players (1-5): ");

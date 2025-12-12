@@ -60,7 +60,7 @@ public class Maze {
         return treasures;
     }
 
-    public void loadJSONMap() {
+    public void loadJSONMap(int mapIndex) {
         JSONReader reader = new JSONReader();
         LinkedUnorderedList<JSONReader.MapDTO> maps = new JSONReader().writeMap();
 
@@ -69,7 +69,25 @@ public class Maze {
             return;
         }
 
-        JSONReader.MapDTO map = maps.first();
+        if (mapIndex < 0 || mapIndex >= maps.size()) {
+            System.out.println("Invalid map. First map will be loaded.");
+            mapIndex = 0;
+        }
+
+        JSONReader.MapDTO map = null;
+        int counter = 0;
+        for (JSONReader.MapDTO dto : maps) {
+            if (counter == mapIndex) {
+                map = dto;
+                break;
+            }
+            counter++;
+        }
+
+        if (map == null) {
+            System.out.println("Map not found.");
+            return;
+        }
 
         ArrayUnorderedList<String> enigmaCandidates = new ArrayUnorderedList<>();
 
@@ -122,7 +140,6 @@ public class Maze {
             int randomIndex = random.nextInt(currentCandidatesCount);
 
             String selectedId = null;
-            int counter = 0;
             Iterator<String> it = enigmaCandidates.iterator();
             while (it.hasNext()) {
                 String id = it.next();
