@@ -1,10 +1,13 @@
 main
 main.data.adt
 main.data.execption
-main.data.impl.graph
+main.data.impl.graph.UnweightedGraph
+main.data.impl.graph.WeightedGraph
+main.data.impl.heap
 main.data.impl.list
 main.data.impl.queue
 main.data.impl.stack
+main.data.impl.tree
 main.game
 main.io
 main.model

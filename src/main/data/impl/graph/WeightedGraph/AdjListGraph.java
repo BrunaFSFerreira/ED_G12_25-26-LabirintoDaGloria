@@ -1,4 +1,4 @@
-package main.data.impl.graph;
+package main.data.impl.graph.WeightedGraph;
 
 import main.data.adt.GraphADT;
 import main.data.impl.list.ArrayUnorderedList;

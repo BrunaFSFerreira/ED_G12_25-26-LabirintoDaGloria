@@ -1,6 +1,6 @@
 package main.game;
 
-import main.data.impl.graph.AdjListGraph;
+import main.data.impl.graph.WeightedGraph.AdjListGraph;
 import main.data.impl.list.DoubleLinkedUnorderedList;
 import main.model.*;
 
